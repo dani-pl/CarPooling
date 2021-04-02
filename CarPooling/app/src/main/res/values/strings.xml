@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Car Pooling</string>
+    <string name="default_name">Full Name</string>
+    <string name="default_nickname">Nickname</string>
+    <string name="default_email">email@adress</string>
+    <string name="default_location">Location</string>
+    <string name="profile_image">Profile Image</string>
+    <string name="change_photo">Change Profile Photo</string>
 </resources>
