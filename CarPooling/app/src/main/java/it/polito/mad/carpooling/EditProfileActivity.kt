@@ -15,10 +15,10 @@ import android.widget.TextView
 
 class EditProfileActivity : AppCompatActivity() {
     // Declaration of properties
-    private lateinit var editText: TextView
-    private lateinit var editText2: TextView
-    private lateinit var editText3: TextView
-    private lateinit var editText4: TextView
+    private lateinit var editText: EditText
+    private lateinit var editText2: EditText
+    private lateinit var editText3: EditText
+    private lateinit var editText4: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,10 +68,10 @@ class EditProfileActivity : AppCompatActivity() {
     // Now we restore the information
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        editText.text = savedInstanceState.getString("ed1")
-        editText2.text = savedInstanceState.getString("ed2")
-        editText2.text = savedInstanceState.getString("ed3")
-        editText2.text = savedInstanceState.getString("ed4")
+        editText.setText(savedInstanceState.getString("ed1"))
+        editText2.setText(savedInstanceState.getString("ed2"))
+        editText3.setText(savedInstanceState.getString("ed3"))
+        editText4.setText(savedInstanceState.getString("ed4"))
     }
 
 }
