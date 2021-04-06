@@ -1,0 +1,2 @@
+it/polito/mad/carpooling/BuildConfig.java
+ it.polito.mad.carpooling.BuildConfig
