@@ -1,4 +1,0 @@
-#Tue Apr 06 11:36:42 COT 2021
-base.0=C\:\\Users\\Alejo\\Desktop\\Lab1\\JulianaBalcero-profile-activity-e0411a4d07b4\\CarPooling\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
-path.0=classes.dex
-renamed.0=classes.dex
