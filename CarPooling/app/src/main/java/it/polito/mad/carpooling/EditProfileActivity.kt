@@ -9,11 +9,9 @@ import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.ContextMenu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.*
+import androidx.core.view.drawToBitmap
 
 
 class EditProfileActivity : AppCompatActivity() {
@@ -24,7 +22,7 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var editText3: EditText
     private lateinit var editText4: EditText
     private lateinit var buttonSave: Button
-    private lateinit var imageView : ImageView
+    private lateinit var imageViewEdit : ImageView
 
     private lateinit var sharedPreferences: SharedPreferences
     //https://medium.com/swlh/sharedpreferences-in-android-using-kotlin-6d3bb4ffb71c
@@ -38,15 +36,17 @@ class EditProfileActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_edit_profile)
 
-        // iniziatilation of properties
+        // initialization of properties
         editText =findViewById<EditText>(R.id.editText)
         editText2 =findViewById<EditText>(R.id.editText2)
         editText3 =findViewById<EditText>(R.id.editText3)
         editText4 =findViewById<EditText>(R.id.editText4)
-        buttonSave =findViewById<Button>(R.id.buttonSave)
-        imageView = findViewById<ImageView>(R.id.imageView)
+        imageViewEdit = findViewById<ImageView>(R.id.imageViewEdit)
 
         sharedPreferences = getSharedPreferences("SHARED_PREF",Context.MODE_PRIVATE)
+
+        imageViewEdit.setImageBitmap(intent.getParcelableExtra("group22.lab1.Image_Profile"))
+        
         //Here we retrieve the final values of the variables on ShowProfileActivity
         val full_name_init: String? = intent.getStringExtra("group22.lab1.FULL_NAME")
         editText.setText(full_name_init)
@@ -56,36 +56,6 @@ class EditProfileActivity : AppCompatActivity() {
         editText3.setText(email_add_init)
         val user_loca_init: String? = intent.getStringExtra("group22.lab1.Location")
         editText4.setText(user_loca_init)
-
-        //Here we saved the new information the user write
-        buttonSave.setOnClickListener {
-
-
-            // we save the values typed on the editText into strings
-            val full_name: String = editText.text.toString()
-            val nick_name: String = editText2.text.toString()
-            val email_add: String = editText3.text.toString()
-            val user_loca: String = editText4.text.toString()
-
-            // we save the values using sharedPreferences to retrieve later
-            val editor: SharedPreferences.Editor = sharedPreferences.edit()
-            editor.putString("FULL_NAME",full_name)
-            editor.putString("NICK_NAME",nick_name)
-            editor.putString("EMAIL_ADD",email_add)
-            editor.putString("USER_LOCA",user_loca)
-            editor.apply()
-            Toast.makeText(this,"Data saved",Toast.LENGTH_SHORT).show()
-
-            //We save the info in the intent and return to ShowProfileActivity
-            val intent = Intent(this, ShowProfileActivity::class.java)
-            intent.putExtra("group22.lab1.FULL_NAME",full_name)
-            intent.putExtra("group22.lab1.Nickname",nick_name)
-            intent.putExtra("group22.lab1.email",email_add)
-            intent.putExtra("group22.lab1.Location",user_loca)
-            setResult(Activity.RESULT_OK,intent)
-            finish()
-        }
-
 
 
         val cameraButton = findViewById<ImageButton>(R.id.cameraButton)
@@ -110,13 +80,53 @@ class EditProfileActivity : AppCompatActivity() {
         when(requestCode){
             CAMERA_REQUEST_CODE -> {
                 if(resultCode == Activity.RESULT_OK && data != null){
-                    imageView.setImageBitmap(data?.extras?.get("data") as Bitmap)
+                    imageViewEdit.setImageBitmap(data?.extras?.get("data") as Bitmap)
                 }
             }
             else -> {
                 Toast.makeText(this, "Unrecognized request code", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu_edit_profile, menu)
+        return true
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+        when (item.itemId) {
+            R.id.save -> {
+                // we save the values typed on the editText into strings
+                val full_name: String = editText.text.toString()
+                val nick_name: String = editText2.text.toString()
+                val email_add: String = editText3.text.toString()
+                val user_loca: String = editText4.text.toString()
+
+                // we save the values using sharedPreferences to retrieve later
+                val editor: SharedPreferences.Editor = sharedPreferences.edit()
+                editor.putString("FULL_NAME",full_name)
+                editor.putString("NICK_NAME",nick_name)
+                editor.putString("EMAIL_ADD",email_add)
+                editor.putString("USER_LOCA",user_loca)
+                editor.apply()
+                Toast.makeText(this,"Data saved",Toast.LENGTH_SHORT).show()
+
+
+                val imageViewBitmap = imageViewEdit.drawToBitmap()
+                //We save the info in the intent and return to ShowProfileActivity
+                val intent = Intent(this, ShowProfileActivity::class.java)
+                intent.putExtra("group22.lab1.Image_Profile",imageViewBitmap)
+                intent.putExtra("group22.lab1.FULL_NAME",full_name)
+                intent.putExtra("group22.lab1.Nickname",nick_name)
+                intent.putExtra("group22.lab1.email",email_add)
+                intent.putExtra("group22.lab1.Location",user_loca)
+                setResult(Activity.RESULT_OK,intent)
+                finish()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 

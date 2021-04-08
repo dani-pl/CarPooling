@@ -7,7 +7,7 @@
 
     <ImageView
         android:contentDescription="@string/profile_image"
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewEdit"
         android:layout_width="128dp"
         android:layout_height="128dp"
         android:layout_marginStart="16dp"
@@ -23,7 +23,7 @@
         android:layout_height="30dp"
         android:layout_marginBottom="98dp"
         android:contentDescription="@string/change_photo"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewEdit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.162"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
         android:hint="@string/default_name"
         android:inputType="textPersonName"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/imageViewEdit"
         app:layout_constraintTop_toTopOf="parent"
         android:importantForAutofill="no"/>
 
@@ -57,7 +57,7 @@
         android:hint="@string/default_nickname"
         android:inputType="textPersonName"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/imageViewEdit"
         app:layout_constraintTop_toBottomOf="@+id/editText"
         android:importantForAutofill="no"/>
 
@@ -71,7 +71,7 @@
         android:hint="@string/default_email"
         android:inputType="textPersonName"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/imageViewEdit"
         app:layout_constraintTop_toBottomOf="@+id/editText2"
         android:importantForAutofill="no" />
 
@@ -86,7 +86,7 @@
         android:importantForAutofill="no"
         android:inputType="textPostalAddress"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/imageViewEdit"
         app:layout_constraintTop_toBottomOf="@+id/editText3" />
 
     <Button

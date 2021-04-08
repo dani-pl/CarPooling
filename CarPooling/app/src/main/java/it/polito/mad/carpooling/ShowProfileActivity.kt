@@ -1,6 +1,5 @@
 package it.polito.mad.carpooling
 
-import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
@@ -8,14 +7,16 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.TextView
 import android.content.Intent
-import android.widget.EditText
+import android.graphics.Bitmap
+import android.widget.ImageView
+import androidx.core.view.drawToBitmap
 
 class ShowProfileActivity : AppCompatActivity() {
     //private lateinit var textView: TextView
     private lateinit var preferences: SharedPreferences
+    private lateinit var imageView: ImageView
     private lateinit var textView: TextView
     private lateinit var textView2: TextView
     private lateinit var textView3: TextView
@@ -26,7 +27,8 @@ class ShowProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.show_profile)
 
-        // iniziatilation of properties
+        // initialization of properties
+        imageView=findViewById<ImageView>(R.id.imageView)
         textView =findViewById<TextView>(R.id.textView)
         textView2 =findViewById<TextView>(R.id.textView2)
         textView3 =findViewById<TextView>(R.id.textView3)
@@ -68,12 +70,14 @@ class ShowProfileActivity : AppCompatActivity() {
     private fun editProfile(){
         // Inside this method, creat an explicit intent targeting
         // the EditProfileActivity class
-        //CAMBIO DE PANTALLA, CUANDO PRESIONO EN SAVE
+        //CAMBIO DE PANTALLA, CUANDO PRESIONO EN EDIT
+        val imageViewBitmap = imageView.drawToBitmap()
         val full_name: String = textView.text.toString()
         val nick_name: String = textView2.text.toString()
         val email_add: String = textView3.text.toString()
         val user_loca: String = textView4.text.toString()
         val intent = Intent(this, EditProfileActivity::class.java)
+        intent.putExtra("group22.lab1.Image_Profile",imageViewBitmap)
         intent.putExtra("group22.lab1.FULL_NAME",full_name)
         intent.putExtra("group22.lab1.Nickname",nick_name)
         intent.putExtra("group22.lab1.email",email_add)
@@ -88,6 +92,7 @@ class ShowProfileActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode==REQUEST_CODE){
             if (resultCode == RESULT_OK){
+                imageView.setImageBitmap(data?.getParcelableExtra("group22.lab1.Image_Profile"))
                 textView.text=data?.getStringExtra("group22.lab1.FULL_NAME")
                 textView2.text=data?.getStringExtra("group22.lab1.Nickname")
                 textView3.text=data?.getStringExtra("group22.lab1.email")
