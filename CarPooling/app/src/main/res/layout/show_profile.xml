@@ -11,13 +11,21 @@
     android:paddingLeft="16dp"
     tools:context=".ShowProfileActivity" >
 
-    <ImageView
-        android:id="@+id/imageView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:gravity="center"
+        android:layout_weight="2">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_gravity="center"
         android:contentDescription="@string/profile_image"
         app:srcCompat="@drawable/tony" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

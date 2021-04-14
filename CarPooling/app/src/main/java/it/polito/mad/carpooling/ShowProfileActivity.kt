@@ -76,11 +76,11 @@ class ShowProfileActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode==REQUEST_CODE && resultCode == RESULT_OK){
-                imageView.setImageBitmap(data?.getParcelableExtra("group22.lab1.Image_Profile"))
-                textView.text=data?.getStringExtra("group22.lab1.FULL_NAME")
-                textView2.text=data?.getStringExtra("group22.lab1.Nickname")
-                textView3.text=data?.getStringExtra("group22.lab1.email")
-                textView4.text=data?.getStringExtra("group22.lab1.Location")
+            imageView.setImageBitmap(data?.getParcelableExtra("group22.lab1.Image_Profile"))
+            textView.text=data?.getStringExtra("group22.lab1.FULL_NAME")
+            textView2.text=data?.getStringExtra("group22.lab1.Nickname")
+            textView3.text=data?.getStringExtra("group22.lab1.email")
+            textView4.text=data?.getStringExtra("group22.lab1.Location")
         }
     }
 }

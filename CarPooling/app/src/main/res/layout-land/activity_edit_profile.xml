@@ -20,8 +20,8 @@
 
         <ImageView
             android:id="@+id/imageViewEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
             android:contentDescription="@string/profile_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -33,11 +33,11 @@
             android:id="@+id/cameraButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginTop="36dp"
             android:contentDescription="@string/change_photo"
             app:layout_constraintEnd_toEndOf="@id/imageViewEdit"
             app:layout_constraintTop_toTopOf="@+id/imageViewEdit"
-            tools:srcCompat="@drawable/camera_foreground" />
+            app:srcCompat="@drawable/camera_foreground"
+            tools:ignore="VectorDrawableCompat" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -40,7 +40,7 @@ class EditProfileActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences("SHARED_PREF",Context.MODE_PRIVATE)
         imageViewEdit.setImageBitmap(intent.getParcelableExtra("group22.lab1.Image_Profile"))
-        
+
         //Here we retrieve the final values of the variables on ShowProfileActivity
         val full_name_init: String? = intent.getStringExtra("group22.lab1.FULL_NAME")
         editText.setText(full_name_init)
@@ -75,14 +75,7 @@ class EditProfileActivity : AppCompatActivity() {
         // Handle item selection
         when (item.itemId) {
             R.id.save -> {
-                /*
-                val editor: SharedPreferences.Editor = sharedPreferences.edit()
-                editor.putString("FULL_NAME", editText.text.toString())
-                editor.putString("NICK_NAME", editText2.text.toString())
-                editor.putString("EMAIL_ADD", editText3.text.toString())
-                editor.putString("USER_LOCA", editText4.text.toString())
-                editor.apply()
-                */
+
                 with (sharedPreferences.edit()) {
                     putString("FULL_NAME", editText.text.toString())
                     putString("NICK_NAME", editText2.text.toString())
