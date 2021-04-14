@@ -82,5 +82,28 @@ class ShowProfileActivity : AppCompatActivity() {
             textView3.text=data?.getStringExtra("group22.lab1.email")
             textView4.text=data?.getStringExtra("group22.lab1.Location")
         }
+
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        // Info is stored in the Bundle
+        super.onSaveInstanceState(outState)
+        outState.putParcelable("im",imageView.drawToBitmap())
+        outState.putString("t1",textView.text.toString())
+        outState.putString("t2",textView2.text.toString())
+        outState.putString("t3",textView3.text.toString())
+        outState.putString("t4",textView4.text.toString())
+
+    }
+
+    // Now we restore the information
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        imageView.setImageBitmap(savedInstanceState.getParcelable("im"))
+        textView.setText(savedInstanceState.getString("t1"))
+        textView2.setText(savedInstanceState.getString("t2"))
+        textView3.setText(savedInstanceState.getString("t3"))
+        textView4.setText(savedInstanceState.getString("t4"))
+    }
+
 }

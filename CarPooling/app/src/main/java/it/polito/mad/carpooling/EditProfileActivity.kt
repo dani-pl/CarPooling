@@ -136,6 +136,7 @@ class EditProfileActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         // Info is stored in the Bundle
         super.onSaveInstanceState(outState)
+        outState.putParcelable("im",imageViewEdit.drawToBitmap())
         outState.putString("ed1",editText.text.toString())
         outState.putString("ed2",editText2.text.toString())
         outState.putString("ed3",editText3.text.toString())
@@ -146,6 +147,7 @@ class EditProfileActivity : AppCompatActivity() {
     // Now we restore the information
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
+        imageViewEdit.setImageBitmap(savedInstanceState.getParcelable("im"))
         editText.setText(savedInstanceState.getString("ed1"))
         editText2.setText(savedInstanceState.getString("ed2"))
         editText3.setText(savedInstanceState.getString("ed3"))

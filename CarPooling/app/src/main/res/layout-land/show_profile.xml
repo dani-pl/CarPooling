@@ -11,22 +11,25 @@
     android:paddingLeft="16dp"
     tools:context=".ShowProfileActivity" >
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:layout_gravity="center"
         android:layout_weight="2">
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="128dp"
             android:layout_height="128dp"
-            android:layout_marginRight="8dp"
-            android:layout_gravity="center"
-            android:layout_weight="2"
             android:contentDescription="@string/profile_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/tony" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <LinearLayout
