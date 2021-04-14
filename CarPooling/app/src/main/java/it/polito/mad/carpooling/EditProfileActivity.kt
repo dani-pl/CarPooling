@@ -12,6 +12,7 @@ import android.provider.MediaStore
 import android.view.*
 import android.widget.*
 import androidx.core.view.drawToBitmap
+import java.io.File
 
 
 class EditProfileActivity : AppCompatActivity() {
@@ -21,22 +22,16 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var editText2: EditText
     private lateinit var editText3: EditText
     private lateinit var editText4: EditText
-    private lateinit var buttonSave: Button
     private lateinit var imageViewEdit : ImageView
-
     private lateinit var sharedPreferences: SharedPreferences
-    //https://medium.com/swlh/sharedpreferences-in-android-using-kotlin-6d3bb4ffb71c
-
-
+    private val CAMERA_REQUEST_CODE = 1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_edit_profile)
 
-        // initialization of properties
+        // Initialization of properties
         editText =findViewById<EditText>(R.id.editText)
         editText2 =findViewById<EditText>(R.id.editText2)
         editText3 =findViewById<EditText>(R.id.editText3)
@@ -44,7 +39,6 @@ class EditProfileActivity : AppCompatActivity() {
         imageViewEdit = findViewById<ImageView>(R.id.imageViewEdit)
 
         sharedPreferences = getSharedPreferences("SHARED_PREF",Context.MODE_PRIVATE)
-
         imageViewEdit.setImageBitmap(intent.getParcelableExtra("group22.lab1.Image_Profile"))
         
         //Here we retrieve the final values of the variables on ShowProfileActivity
@@ -59,33 +53,16 @@ class EditProfileActivity : AppCompatActivity() {
 
 
         val cameraButton = findViewById<ImageButton>(R.id.cameraButton)
+        // Long press on the ImageButton is needed, not a short click
         registerForContextMenu(cameraButton)
-
-        //here we launch the camera
-        val CAMERA_REQUEST_CODE = 0
-        cameraButton.setOnClickListener{              val callCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            if(callCameraIntent.resolveActivity(packageManager) != null) {
-                startActivityForResult(callCameraIntent, CAMERA_REQUEST_CODE)
-            }
-        }
-
 
     }
 
-    // Here we save the picture taken by the camera and update the picture on the profile user
-    val CAMERA_REQUEST_CODE = 0
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        when(requestCode){
-            CAMERA_REQUEST_CODE -> {
-                if(resultCode == Activity.RESULT_OK && data != null){
-                    imageViewEdit.setImageBitmap(data?.extras?.get("data") as Bitmap)
-                }
-            }
-            else -> {
-                Toast.makeText(this, "Unrecognized request code", Toast.LENGTH_SHORT).show()
-            }
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            imageViewEdit.setImageBitmap(imageBitmap)
         }
     }
 
@@ -98,30 +75,30 @@ class EditProfileActivity : AppCompatActivity() {
         // Handle item selection
         when (item.itemId) {
             R.id.save -> {
-                // we save the values typed on the editText into strings
-                val full_name: String = editText.text.toString()
-                val nick_name: String = editText2.text.toString()
-                val email_add: String = editText3.text.toString()
-                val user_loca: String = editText4.text.toString()
-
-                // we save the values using sharedPreferences to retrieve later
+                /*
                 val editor: SharedPreferences.Editor = sharedPreferences.edit()
-                editor.putString("FULL_NAME",full_name)
-                editor.putString("NICK_NAME",nick_name)
-                editor.putString("EMAIL_ADD",email_add)
-                editor.putString("USER_LOCA",user_loca)
+                editor.putString("FULL_NAME", editText.text.toString())
+                editor.putString("NICK_NAME", editText2.text.toString())
+                editor.putString("EMAIL_ADD", editText3.text.toString())
+                editor.putString("USER_LOCA", editText4.text.toString())
                 editor.apply()
-                Toast.makeText(this,"Data saved",Toast.LENGTH_SHORT).show()
+                */
+                with (sharedPreferences.edit()) {
+                    putString("FULL_NAME", editText.text.toString())
+                    putString("NICK_NAME", editText2.text.toString())
+                    putString("EMAIL_ADD", editText3.text.toString())
+                    putString("USER_LOCA", editText4.text.toString())
+                    apply()
+                }
 
+                val intent = Intent(this, ShowProfileActivity::class.java).also {
+                    it.putExtra("group22.lab1.FULL_NAME",editText.text.toString())
+                    it.putExtra("group22.lab1.Nickname",editText2.text.toString())
+                    it.putExtra("group22.lab1.email",editText3.text.toString())
+                    it.putExtra("group22.lab1.Location",editText4.text.toString())
+                    it.putExtra("group22.lab1.Image_Profile",imageViewEdit.drawToBitmap())
+                }
 
-                val imageViewBitmap = imageViewEdit.drawToBitmap()
-                //We save the info in the intent and return to ShowProfileActivity
-                val intent = Intent(this, ShowProfileActivity::class.java)
-                intent.putExtra("group22.lab1.Image_Profile",imageViewBitmap)
-                intent.putExtra("group22.lab1.FULL_NAME",full_name)
-                intent.putExtra("group22.lab1.Nickname",nick_name)
-                intent.putExtra("group22.lab1.email",email_add)
-                intent.putExtra("group22.lab1.Location",user_loca)
                 setResult(Activity.RESULT_OK,intent)
                 finish()
             }
@@ -130,32 +107,41 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
 
-    override fun onCreateContextMenu(menu: ContextMenu, v: View,
-                                     menuInfo: ContextMenu.ContextMenuInfo?) {
+    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.menu_change_image, menu)
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
         return when (item.itemId) {
             R.id.gallery -> {
                 true
-
             }
             R.id.use_camera -> {
+                dispatchTakePictureIntent()
                 true
-
             }
             else -> super.onContextItemSelected(item)
         }
     }
 
-    // methods to keep the info when we rotate the screen
+    private fun dispatchTakePictureIntent() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(packageManager)?.also {
+                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE)
+            }
+        }
+
+    }
+
+
+    // Methods to keep the info when we rotate the screen
     // when we rotate the screen of the device, we are destroying the activity, so we want to keep
     // the information that was being displayed in the screen.
-    override fun onSaveInstanceState(outState: Bundle) { //the info is stored in the Bundle
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        // Info is stored in the Bundle
         super.onSaveInstanceState(outState)
         outState.putString("ed1",editText.text.toString())
         outState.putString("ed2",editText2.text.toString())
