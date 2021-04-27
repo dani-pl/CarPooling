@@ -62,6 +62,17 @@ class TripEditFragment : Fragment(R.layout.fragment_trip_edit) {
         additionalInfoView = view.findViewById<EditText>(R.id.additionalInfo_text)
         imageViewCard = view.findViewById<ImageView>(R.id.imageView)
 
+        if(arguments!=null) {
+            departureLocationView.text = arguments?.getParcelable<Item>("ItemDetails")?.departureLocation.toString()
+            arrivalLocationView.text = arguments?.getParcelable<Item>("ItemDetails")?.arrivalLocation.toString()
+            departureDateView.text = arguments?.getParcelable<Item>("ItemDetails")?.departureDate.toString()
+            departureTimeView.text = arguments?.getParcelable<Item>("ItemDetails")?.departureTime.toString()
+            tripDurationView.text = arguments?.getParcelable<Item>("ItemDetails")?.tripDuration.toString()
+            priceView.text = arguments?.getParcelable<Item>("ItemDetails")?.price.toString()
+            additionalInfoView.text = arguments?.getParcelable<Item>("ItemDetails")?.additionalInfo.toString()
+            imageViewCard.setImageBitmap(arguments?.getParcelable<Item>("ItemDetails")?.image)
+        }
+
 
     }
 
@@ -89,7 +100,6 @@ class TripEditFragment : Fragment(R.layout.fragment_trip_edit) {
                                     additionalInfoView.text.toString(),
                                     imageViewCard.drawable.toBitmap()))
                 }else {
-                    val a = viewModel.position.value
                     viewModel.editItem(viewModel.position.value!!,
                             Item(
                             departureLocationView.text.toString(),

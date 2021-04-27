@@ -19,7 +19,7 @@
         android:layout_weight="2">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imageView_details"
             android:layout_width="128dp"
             android:layout_height="128dp"
             android:layout_gravity="center"
@@ -35,7 +35,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/departureLocation_text_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -43,7 +43,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/arrivalLocation_text_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -51,7 +51,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/departureDate_text_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -59,35 +59,35 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/departureTime_text_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/default_time"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/tripDuration_text_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/default_estimated"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/numberOfSeats_text_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/default_availableSeats"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/price_text_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/default_price"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/additionalInfo_text_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

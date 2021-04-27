@@ -142,12 +142,16 @@ class ItemAdapter(val items:MutableList<Item>): RecyclerView.Adapter<ItemAdapter
         holder.bind(items[position])
 
         holder.itemView.setOnClickListener{
-            Navigation.findNavController(holder.itemView).navigate(R.id.action_tripListFragment_to_tripDetailsFragment)
+            val bundle = Bundle()
+            bundle.putParcelable("ItemDetails",items[position])
+            bundle.putInt("position",position)
+            Navigation.findNavController(holder.itemView).navigate(R.id.action_tripListFragment_to_tripDetailsFragment,bundle)
         }
         val editButton = holder.itemView.findViewById<MaterialButton?>(R.id.edit_card_button)
 
         editButton?.setOnClickListener {
             val bundle = Bundle()
+            bundle.putParcelable("ItemDetails",items[position])
             bundle.putInt("position",position)
             Navigation.findNavController(holder.itemView).navigate(R.id.action_tripListFragment_to_tripEditFragment,bundle)
         }

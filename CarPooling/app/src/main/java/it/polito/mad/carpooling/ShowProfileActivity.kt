@@ -27,11 +27,11 @@ class ShowProfileActivity : AppCompatActivity() {
 
         // initialization of properties
 
-        imageView = findViewById<ImageView>(R.id.imageView)
-        textView = findViewById<TextView>(R.id.textView)
-        textView2 = findViewById<TextView>(R.id.textView2)
-        textView3 = findViewById<TextView>(R.id.textView3)
-        textView4 = findViewById<TextView>(R.id.textView4)
+        imageView = findViewById<ImageView>(R.id.imageView_details)
+        textView = findViewById<TextView>(R.id.departureLocation_text_details)
+        textView2 = findViewById<TextView>(R.id.arrivalLocation_text_details)
+        textView3 = findViewById<TextView>(R.id.departureDate_text_details)
+        textView4 = findViewById<TextView>(R.id.departureTime_text_details)
 
         sharedPreferences = getSharedPreferences("SHARED_PREF",Context.MODE_PRIVATE)
         // Retrieve the information when the app has been closed with Shared Preferences
