@@ -50,7 +50,7 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/departureLocation_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -61,7 +61,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/arrivalLocation_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -69,10 +69,10 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
-            app:layout_constraintTop_toBottomOf="@+id/editText1" />
+            app:layout_constraintTop_toBottomOf="@+id/departureLocation_text" />
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/departureDate_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -80,10 +80,10 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
-            app:layout_constraintTop_toBottomOf="@+id/editText2" />
+            app:layout_constraintTop_toBottomOf="@+id/arrivalLocation_text" />
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/departureTime_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -91,9 +91,9 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
-            app:layout_constraintTop_toBottomOf="@+id/editText3" />
+            app:layout_constraintTop_toBottomOf="@+id/departureDate_text" />
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/tripDuration_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -101,9 +101,9 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
-            app:layout_constraintTop_toBottomOf="@+id/editText4" />
+            app:layout_constraintTop_toBottomOf="@+id/departureTime_text" />
         <EditText
-            android:id="@+id/editText6"
+            android:id="@+id/numberOfSeats_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -111,9 +111,9 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
-            app:layout_constraintTop_toBottomOf="@+id/editText5" />
+            app:layout_constraintTop_toBottomOf="@+id/tripDuration_text" />
         <EditText
-            android:id="@+id/editText7"
+            android:id="@+id/price_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -121,9 +121,9 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
-            app:layout_constraintTop_toBottomOf="@+id/editText6" />
+            app:layout_constraintTop_toBottomOf="@+id/numberOfSeats_text" />
         <EditText
-            android:id="@+id/editText8"
+            android:id="@+id/additionalInfo_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -131,7 +131,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
-            app:layout_constraintTop_toBottomOf="@+id/editText7" />
+            app:layout_constraintTop_toBottomOf="@+id/price_text" />
     </LinearLayout>
 
 

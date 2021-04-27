@@ -12,7 +12,6 @@ import android.provider.MediaStore
 import android.view.*
 import android.widget.*
 import androidx.core.view.drawToBitmap
-import java.io.File
 
 
 class EditProfileActivity : AppCompatActivity() {
@@ -33,9 +32,9 @@ class EditProfileActivity : AppCompatActivity() {
 
         // Initialization of properties
         editText =findViewById<EditText>(R.id.editText)
-        editText2 =findViewById<EditText>(R.id.editText2)
-        editText3 =findViewById<EditText>(R.id.editText3)
-        editText4 =findViewById<EditText>(R.id.editText4)
+        editText2 =findViewById<EditText>(R.id.arrivalLocation_text)
+        editText3 =findViewById<EditText>(R.id.departureDate_text)
+        editText4 =findViewById<EditText>(R.id.departureTime_text)
         imageViewEdit = findViewById<ImageView>(R.id.imageViewEdit)
 
         sharedPreferences = getSharedPreferences("SHARED_PREF",Context.MODE_PRIVATE)

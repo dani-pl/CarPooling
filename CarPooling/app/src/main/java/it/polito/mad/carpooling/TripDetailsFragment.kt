@@ -3,6 +3,8 @@ package it.polito.mad.carpooling
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class TripDetailsFragment : Fragment() {
@@ -11,6 +13,8 @@ class TripDetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        val fab= activity?.findViewById<FloatingActionButton>(R.id.fab)
+        fab?.hide()
     }
 
     override fun onCreateView(
@@ -32,7 +36,7 @@ class TripDetailsFragment : Fragment() {
         // Handle item selection
         when (item.itemId) {
             R.id.edit_profile -> {
-
+                findNavController().navigate(R.id.action_tripDetailsFragment_to_tripEditFragment)
             }
         }
         return super.onOptionsItemSelected(item)
