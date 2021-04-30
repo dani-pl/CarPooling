@@ -7,13 +7,9 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.*
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -32,6 +28,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     private lateinit var nameDrawer: TextView
 
     private val CAMERA_REQUEST_CODE = 1
+    private val IMAGE_CHOOSE = 1000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,6 +100,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     override fun onContextItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.gallery -> {
+                chooseImageGallery()
                 true
             }
             R.id.use_camera -> {
@@ -128,7 +126,24 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             imageViewEdit.setImageBitmap(imageBitmap)
             //viewModel.change_image_drawer(imageBitmap)
         }
+
+        if (requestCode == IMAGE_CHOOSE && resultCode == AppCompatActivity.RESULT_OK) {
+            val imageUri = data?.data
+            imageViewEdit.setImageURI(imageUri)
+
+        }
     }
+
+    private fun chooseImageGallery() {
+
+        val gallery = Intent(Intent.ACTION_PICK)
+        gallery.type = "image/*"
+        //Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        gallery.setAction(Intent.ACTION_GET_CONTENT)
+        //startActivityForResult(gallery, IMAGE_CHOOSE)
+        startActivityForResult(Intent.createChooser(gallery, "select picture"), IMAGE_CHOOSE)
+    }
+
 
     /*
        override fun onSaveInstanceState(outState: Bundle) {
