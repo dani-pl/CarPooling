@@ -104,17 +104,18 @@
                         android:textAppearance="?attr/textAppearanceBody2"
                         android:textColor="?android:attr/textColorSecondary"
                         android:layout_marginEnd="2dp" />
+
                     <ImageView
                         android:id="@+id/seats_card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
                         android:layout_marginRight="8dp"
-                        app:srcCompat="@drawable/ic_menu_camera"
+                        android:contentDescription="TODO"
                         android:textAppearance="?attr/textAppearanceBody2"
                         android:textColor="?android:attr/textColorSecondary"
-                        android:contentDescription="TODO"
-                        android:layout_marginEnd="8dp" />
+                        app:srcCompat="@drawable/ic_baseline_person_24_black" />
                     <TextView
                         android:id="@+id/price_text_card"
                         android:layout_width="wrap_content"

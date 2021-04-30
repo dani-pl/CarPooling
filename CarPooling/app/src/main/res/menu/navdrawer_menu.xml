@@ -6,16 +6,12 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/tripListFragment"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_baseline_cable_24_black"
             android:title="@string/home" />
         <item
             android:id="@+id/showProfileFragment"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_baseline_person_24_black"
             android:title="@string/menu_profile" />
-        <item
-            android:id="@+id/editProfileFragment"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/edit_profile" />
 
     </group>
 </menu>

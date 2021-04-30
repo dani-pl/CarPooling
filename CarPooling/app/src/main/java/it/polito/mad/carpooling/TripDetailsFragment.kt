@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
-class TripDetailsFragment : Fragment() {
+class TripDetailsFragment : Fragment(R.layout.fragment_trip_details) {
     private lateinit var departureLocationView: TextView
     private lateinit var arrivalLocationView: TextView
     private lateinit var departureDateView: TextView
@@ -30,14 +30,6 @@ class TripDetailsFragment : Fragment() {
         setHasOptionsMenu(true)
         val fab= activity?.findViewById<FloatingActionButton>(R.id.fab)
         fab?.hide()
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_trip_details, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -71,9 +63,7 @@ class TripDetailsFragment : Fragment() {
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        val inflater: MenuInflater = inflater
         inflater.inflate(R.menu.menu_show_profile, menu)
-        //return true
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection

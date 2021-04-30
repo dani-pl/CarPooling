@@ -6,7 +6,7 @@
     <string name="default_location">Location</string>
     <string name="profile_image">Profile Image</string>
     <string name="change_photo">Change Profile Photo</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Car Pooling</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Car pooling </string>
@@ -16,30 +16,28 @@
 
 
     <string name="default_DepartureLocation">Milano</string>
-    <string name="default_ArrivalLocation">Torino</string>
-    <string name="default_date">24/11/2021</string>
-    <string name="default_time">12:30</string>
-    <string name="default_estimated">2</string>
-    <string name="default_availableSeats">2</string>
-    <string name="default_price">18</string>
-    <string name="default_description">No smokers</string>
+    <string name="default_ArrivalLocation">Arrival location</string>
+    <string name="default_date">Departure date</string>
+    <string name="default_time">Departure time</string>
+    <string name="default_estimated">Duration</string>
+    <string name="default_availableSeats">Seats</string>
+    <string name="default_price">Price</string>
+    <string name="default_description">Additional information</string>
 
     <string name="image">image</string>
 
-    <string name="menu_profile">Profile</string>
-    <string name="edit_profile">Edit Profile</string>
+    <string name="menu_profile">My profile</string>
+    <string name="edit_profile">Edit profile</string>
     <string name="menu_trip">Trip</string>
     <string name="menu_tripEdit">Edit Trip </string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_fragment"> User Profile - Fragment</string>
     <string name="hello_fragment_edit"> Edit Profile - Fragment</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="home">home</string>
+    <string name="home">My trips</string>
     <string name="edit">Edit</string>
     <string name="route">Route</string>
-    <string name="no_data_available">Clik + to add a new trip</string>
-    <string name="departureLocation">Milano</string>
+    <string name="no_data_available">Click + to add a new trip</string>
+    <string name="departureLocation">Departure location</string>
     <string name="hyphen"> - </string>
     <string name="ArrivalLocation">Torino</string>
     <string name="price">18</string>

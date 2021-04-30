@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.graphics.drawable.toBitmap
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -24,12 +26,9 @@ class TripListFragment : Fragment(R.layout.fragment_trip_list) {
     lateinit var itemAdapter: ItemAdapter
     private lateinit var listCards: MutableList<Item>
     private val viewModel: ListViewModel by activityViewModels()
-    //private lateinit var viewModel: ListViewModel
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //viewModel = ViewModelProvider(requireActivity()).get(ListViewModel::class.java)
         val rv = view.findViewById<RecyclerView>(R.id.rv)
         rv.layoutManager = LinearLayoutManager(context)
         listCards= mutableListOf<Item>()
@@ -44,9 +43,6 @@ class TripListFragment : Fragment(R.layout.fragment_trip_list) {
                 listCards.add(item)
             }
         })
-
-
-
         itemAdapter = ItemAdapter(listCards)
         rv.adapter = itemAdapter
 
@@ -55,8 +51,6 @@ class TripListFragment : Fragment(R.layout.fragment_trip_list) {
 
 
 }
-
-
 
 data class Item(val departureLocation:String?, val arrivalLocation:String?,
                 val departureDate:String?, val departureTime:String?,
@@ -172,6 +166,11 @@ class ListViewModel() : ViewModel() {
     val new: LiveData<Boolean> = _new
     val _position = MutableLiveData<Int?>()
     val position: LiveData<Int?> = _position
+/*
+    val _image_drawer= MutableLiveData<Bitmap?>()
+    val image_drawer: LiveData<Bitmap?> = _image_drawer
+
+ */
 
     fun addItem(item: Item) {
         _items.value = items.value.also { it?.add(item) }
@@ -189,5 +188,12 @@ class ListViewModel() : ViewModel() {
     fun change_position(position: Int?) {
         _position.value = position
     }
+    /*
+    fun change_image_drawer(image: Bitmap?){
+            _image_drawer.value = image
+    }
+
+     */
+
     //fun removeItem(item: Item) { item.add() }
 }
