@@ -1,7 +1,10 @@
 package it.polito.mad.carpooling
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Path
 import android.os.Bundle
+import android.os.Environment
 import android.os.Parcel
 import android.os.Parcelable
 import android.view.LayoutInflater
@@ -20,6 +23,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.google.firebase.storage.FirebaseStorage
+import java.io.File
 
 
 class TripListFragment : Fragment(R.layout.fragment_trip_list) {
@@ -31,20 +38,84 @@ class TripListFragment : Fragment(R.layout.fragment_trip_list) {
         super.onViewCreated(view, savedInstanceState)
         val rv = view.findViewById<RecyclerView>(R.id.rv)
         rv.layoutManager = LinearLayoutManager(context)
-        listCards= mutableListOf<Item>()
+
+
+        //listCards= mutableListOf<Item>()
         val noDataAvailable = view.findViewById<TextView>(R.id.no_data_available)
         val fab= activity?.findViewById<FloatingActionButton>(R.id.fab)
         fab?.show()
-        viewModel.items.observe(viewLifecycleOwner,Observer<MutableList<Item>> { items->
-            if(items.isNotEmpty()){
-                noDataAvailable.isVisible = false
+
+
+        val db = FirebaseFirestore.getInstance()
+        db.collection("trips")
+            .orderBy("createdAt", Query.Direction.DESCENDING)
+            .addSnapshotListener { value, error ->
+                if(error!=null) throw error
+                if(value!=null){
+                    // get Image bitmap
+                    val storage = FirebaseStorage.getInstance()
+                    val storageRef = storage.reference
+                    val trips = mutableListOf<Item>()
+                    for (doc in value){
+                        var downloadedBitmap: Bitmap
+                        var bitmapCar: Bitmap
+                        val imageRef = storageRef.child(doc["image"] as String)
+                        val carRef = storageRef.child("images/car.jpeg")
+                        val ONE_MEGABYTE: Long = 1024 * 1024
+                        carRef.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
+                            bitmapCar = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                            imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
+                                downloadedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                                trips.add(
+                                    Item(
+                                        doc["identifier"] as String,
+                                        doc["departureLocation"] as String,
+                                        doc["arrivalLocation"] as String,
+                                        doc["departureDate"] as String,
+                                        doc["departureTime"] as String,
+                                        doc["tripDuration"] as String,
+                                        doc["numberOfSeats"] as String,
+                                        doc["price"] as String,
+                                        doc["additionalInfo"] as String,
+                                        downloadedBitmap
+                                    )
+                                )
+                            }.addOnFailureListener {
+                                trips.add(
+                                    Item(
+                                        doc["identifier"] as String,
+                                        doc["departureLocation"] as String,
+                                        doc["arrivalLocation"] as String,
+                                        doc["departureDate"] as String,
+                                        doc["departureTime"] as String,
+                                        doc["tripDuration"] as String,
+                                        doc["numberOfSeats"] as String,
+                                        doc["price"] as String,
+                                        doc["additionalInfo"] as String,
+                                        bitmapCar
+                                    )
+                                )
+                            }.addOnCompleteListener {
+                                itemAdapter = ItemAdapter(trips)
+                                rv.adapter = itemAdapter
+                            }
+                        }
+                    }
+                }
             }
-            for (item in items) {
-                listCards.add(item)
+
+
+
+
+        viewModel.size.observe(viewLifecycleOwner,Observer<Int?> { size->
+            if(size!=null) {
+                noDataAvailable.isVisible = size <= 0
             }
         })
-        itemAdapter = ItemAdapter(listCards)
-        rv.adapter = itemAdapter
+
+
+        //itemAdapter = ItemAdapter(trips)
+        //rv.adapter = itemAdapter
 
 
     }
@@ -52,7 +123,7 @@ class TripListFragment : Fragment(R.layout.fragment_trip_list) {
 
 }
 
-data class Item(val departureLocation:String?, val arrivalLocation:String?,
+data class Item(val identifier: String?, val departureLocation:String?, val arrivalLocation:String?,
                 val departureDate:String?, val departureTime:String?,
                 val tripDuration:String?, val numberOfSeats:String?,
                 val price:String?, val additionalInfo:String?,
@@ -66,11 +137,13 @@ data class Item(val departureLocation:String?, val arrivalLocation:String?,
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
+        parcel.readString(),
         parcel.readParcelable(Bitmap::class.java.classLoader)
     ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(identifier)
         parcel.writeString(departureLocation)
         parcel.writeString(arrivalLocation)
         parcel.writeString(departureDate)
@@ -137,16 +210,17 @@ class ItemAdapter(val items:MutableList<Item>): RecyclerView.Adapter<ItemAdapter
 
         holder.itemView.setOnClickListener{
             val bundle = Bundle()
-            bundle.putParcelable("ItemDetails",items[position])
-            bundle.putInt("position",position)
+            val a = position
+            bundle.putString("identifier",items[position].identifier)
+            bundle.putBoolean("new",false)
             Navigation.findNavController(holder.itemView).navigate(R.id.action_tripListFragment_to_tripDetailsFragment,bundle)
         }
         val editButton = holder.itemView.findViewById<MaterialButton?>(R.id.edit_card_button)
 
         editButton?.setOnClickListener {
             val bundle = Bundle()
-            bundle.putParcelable("ItemDetails",items[position])
-            bundle.putInt("position",position)
+            bundle.putString("identifier",items[position].identifier)
+            bundle.putBoolean("new",false)
             Navigation.findNavController(holder.itemView).navigate(R.id.action_tripListFragment_to_tripEditFragment,bundle)
         }
     }
@@ -164,8 +238,12 @@ class ListViewModel() : ViewModel() {
     val items: LiveData<MutableList<Item>> = _items
     private val _new = MutableLiveData(false)
     val new: LiveData<Boolean> = _new
-    val _position = MutableLiveData<Int?>()
-    val position: LiveData<Int?> = _position
+    val _identifier = MutableLiveData(0)
+    val identifier: LiveData<Int?> = _identifier
+    val _size = MutableLiveData(0)
+    val size: LiveData<Int?> = _size
+    val _listIdentifiers = MutableLiveData(mutableListOf<Int>())
+    val listIdentifiers = _listIdentifiers
 /*
     val _image_drawer= MutableLiveData<Bitmap?>()
     val image_drawer: LiveData<Bitmap?> = _image_drawer
@@ -185,8 +263,26 @@ class ListViewModel() : ViewModel() {
         _items.value = items.value.also{items-> items?.set(position, item) }
     }
 
-    fun change_position(position: Int?) {
-        _position.value = position
+    fun change_identifier(identifier: Int?) {
+        _identifier.value = identifier
+    }
+
+    fun increase_size(){
+        _size.value= _size.value?.plus(1)
+    }
+    fun decrease_size(){
+        _size.value= _size.value?.minus(1)
+    }
+    fun set_size(size: Int){
+        _size.value = size
+    }
+
+    fun isUnique(identifier: Int): Boolean? {
+       return  _listIdentifiers.value?.contains(identifier)
+    }
+
+    fun addIdentifier(identifier: Int) {
+         _listIdentifiers.value?.add(identifier)
     }
     /*
     fun change_image_drawer(image: Bitmap?){

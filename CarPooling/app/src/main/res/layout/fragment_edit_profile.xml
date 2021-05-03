@@ -1,21 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    android:paddingRight="16dp"
+    android:orientation="vertical"
     android:paddingLeft="16dp"
-    tools:context=".EditProfileFragment" >
+    android:paddingRight="16dp"
+    android:visibility="visible"
+    tools:context=".EditProfileFragment">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_weight="2">
+
+        <ImageButton
+            android:id="@+id/cameraButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="144dp"
+            android:layout_marginRight="144dp"
+            android:contentDescription="@string/change_photo"
+            app:layout_constraintEnd_toEndOf="@id/imageViewEdit_edit_profile"
+            app:layout_constraintTop_toTopOf="@+id/imageViewEdit_edit_profile"
+            app:srcCompat="@drawable/ic_menu_camera"
+            tools:ignore="VectorDrawableCompat" />
 
         <ImageView
             android:id="@+id/imageViewEdit_edit_profile"
@@ -28,17 +42,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/tony" />
 
-        <ImageButton
-            android:id="@+id/cameraButton"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:contentDescription="@string/change_photo"
-            app:layout_constraintEnd_toEndOf="@id/imageViewEdit_edit_profile"
-            app:layout_constraintTop_toTopOf="@+id/imageViewEdit_edit_profile"
-            app:srcCompat="@drawable/camera_foreground"
-            tools:ignore="VectorDrawableCompat" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.*
@@ -14,6 +16,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import java.io.ByteArrayOutputStream
+import java.time.LocalDateTime
 
 class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
@@ -24,6 +32,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     private lateinit var imageViewEdit : ImageView
     private lateinit var sharedPreferences: SharedPreferences
     private val viewModel: ListViewModel by activityViewModels()
+    private lateinit var storage: FirebaseStorage
+    private lateinit var storageReference: StorageReference
 
     private lateinit var nameDrawer: TextView
 
@@ -40,6 +50,11 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        storage = FirebaseStorage.getInstance()
+        storageReference = storage.reference
+
+
         editText = view.findViewById<EditText>(R.id.editText_edit_profile)
         editText2 = view.findViewById<EditText>(R.id.editText2_edit_profile)
         editText3 = view.findViewById<EditText>(R.id.editText3_edit_profile)
@@ -47,15 +62,37 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         imageViewEdit = view.findViewById<ImageView>(R.id.imageViewEdit_edit_profile)
 
 
-        sharedPreferences = activity?.getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)!!
+        val db = FirebaseFirestore.getInstance()
+        db.collection("users")
+            .document("user1")
+            .get()
+            .addOnSuccessListener { value ->
+                if (value != null) {
+                    editText.setText(value["fullName"].toString())
+                    editText2.setText(value["nickname"].toString())
+                    editText3.setText(value["email"].toString())
+                    editText4.setText(value["location"].toString())
 
-        if(arguments!=null) {
-            imageViewEdit.setImageBitmap(arguments?.getParcelable("group22.lab1.Image_Profile"))
-            editText.setText(arguments?.getString("group22.lab1.full_name"))
-            editText2.setText(arguments?.getString("group22.lab1.nickname"))
-            editText3.setText(arguments?.getString("group22.lab1.email"))
-            editText4.setText(arguments?.getString("group22.lab1.location"))
-        }
+                    val storage = FirebaseStorage.getInstance()
+                    val storageRef = storage.reference
+                    val imageRef = storageRef.child(value["image"] as String)
+                    val ONE_MEGABYTE: Long = 1024 * 1024
+                    var bitmapCar: Bitmap
+                    val carRef = storageRef.child("images/tony.jpg")
+                    carRef.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
+                        bitmapCar = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                        imageRef.getBytes(ONE_MEGABYTE)
+                            .addOnSuccessListener { bytes ->
+                                imageViewEdit.setImageBitmap(
+                                    BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                                )
+                            }
+                            .addOnCanceledListener {
+                                imageViewEdit.setImageBitmap(bitmapCar)
+                            }
+                    }
+                }
+            }
 
         val cameraButton = view.findViewById<ImageButton>(R.id.cameraButton)
         // Long press on the ImageButton is needed, not a short click
@@ -71,21 +108,18 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         // Handle item selection
         when (item.itemId) {
             R.id.save -> {
-                //nameDrawer.text = editText.text.toString()
-                with (sharedPreferences.edit()) {
-                    putString("FULL_NAME", editText.text.toString())
-                    putString("NICK_NAME", editText2.text.toString())
-                    putString("EMAIL_ADD", editText3.text.toString())
-                    putString("USER_LOCA", editText4.text.toString())
-                    apply()
-                }
-                val bundle = Bundle()
-                bundle.putParcelable("group22.lab1.Image_Profile",imageViewEdit.drawable.toBitmap())
-                bundle.putString("group22.lab1.full_name", editText.text.toString())
-                bundle.putString("group22.lab1.nickname", editText2.text.toString())
-                bundle.putString("group22.lab1.email", editText3.text.toString())
-                bundle.putString("group22.lab1.location", editText4.text.toString())
-                findNavController().navigate(R.id.action_editProfileFragment_to_showProfileFragment,bundle)
+
+                val db = FirebaseFirestore.getInstance()
+                db.collection("users").document("user1")
+                    .set(hashMapOf(
+                        "fullName" to editText.text.toString(),
+                        "nickname" to editText2.text.toString(),
+                        "email" to editText3.text.toString(),
+                        "location" to editText4.text.toString(),
+                        "image" to "images/users/user1"
+                        //"image" to imageViewCard.drawable.toBitmap()
+                    ))
+                findNavController().navigate(R.id.action_editProfileFragment_to_showProfileFragment)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -124,8 +158,19 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == AppCompatActivity.RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             imageViewEdit.setImageBitmap(imageBitmap)
-            //viewModel.change_image_drawer(imageBitmap)
+
+            // Store the image
+            val imageRef = storageReference.child("images/users/user1")
+            imageViewEdit.isDrawingCacheEnabled = true
+            imageViewEdit.buildDrawingCache()
+            val bitmap = (imageViewEdit.drawable as BitmapDrawable).bitmap
+            val baos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val data = baos.toByteArray()
+            imageRef.putBytes(data)
         }
+
+        ///findNavController().g
 
         if (requestCode == IMAGE_CHOOSE && resultCode == AppCompatActivity.RESULT_OK) {
             val imageUri = data?.data

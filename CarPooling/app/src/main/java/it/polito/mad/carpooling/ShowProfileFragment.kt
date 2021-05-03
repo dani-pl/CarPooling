@@ -2,6 +2,8 @@ package it.polito.mad.carpooling
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -11,6 +13,9 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.drawToBitmap
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.google.firebase.storage.FirebaseStorage
 
 class ShowProfileFragment : Fragment() {
 
@@ -19,7 +24,7 @@ class ShowProfileFragment : Fragment() {
     private lateinit var textView3: TextView
     private lateinit var textView4: TextView
     private lateinit var imageView: ImageView
-    private lateinit var sharedPreferences: SharedPreferences
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,25 +47,37 @@ class ShowProfileFragment : Fragment() {
         textView2 = view.findViewById<TextView>(R.id.textView2_show_profile)
         textView3 = view.findViewById<TextView>(R.id.textView3_show_profile)
         textView4 = view.findViewById<TextView>(R.id.textView4_show_profile)
+       val db = FirebaseFirestore.getInstance()
+       db.collection("users")
+           .document("user1")
+           .get()
+           .addOnSuccessListener { value ->
+               if (value != null) {
+                   textView.setText(value["fullName"].toString())
+                   textView2.setText(value["nickname"].toString())
+                   textView3.setText(value["email"].toString())
+                   textView4.setText(value["location"].toString())
 
-
-               sharedPreferences = activity?.getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)!!
-
-
-              // textView.text = sharedPreferences.getString("FULL_NAME", textView.text.toString())
-               //textView2.text = sharedPreferences.getString("NICK_NAME", textView2.text.toString())
-               //textView3.text = sharedPreferences.getString("EMAIL_ADD", textView3.text.toString())
-               //textView4.text = sharedPreferences.getString("USER_LOCA", textView4.text.toString())
-
-
-
-               if(arguments!=null) {
-                   imageView.setImageBitmap(arguments?.getParcelable("group22.lab1.Image_Profile"))
-                   textView.text = arguments?.getString("group22.lab1.full_name")
-                   textView2.text = arguments?.getString("group22.lab1.nickname")
-                   textView3.text = arguments?.getString("group22.lab1.email")
-                   textView4.text = arguments?.getString("group22.lab1.location")
+                   val storage = FirebaseStorage.getInstance()
+                   val storageRef = storage.reference
+                   val imageRef = storageRef.child(value["image"] as String)
+                   val ONE_MEGABYTE: Long = 1024 * 1024
+                   var bitmapCar: Bitmap
+                   val carRef = storageRef.child("images/tony.jpg")
+                   carRef.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
+                       bitmapCar = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                       imageRef.getBytes(ONE_MEGABYTE)
+                           .addOnSuccessListener { bytes ->
+                           imageView.setImageBitmap(
+                               BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                           )
+                           }
+                           .addOnCanceledListener {
+                               imageView.setImageBitmap(bitmapCar)
+                           }
+                   }
                }
+           }
 
    }
 
@@ -72,22 +89,10 @@ class ShowProfileFragment : Fragment() {
         // Handle item selection
         when (item.itemId) {
             R.id.edit_profile -> {
-                editProfile()
+                findNavController().navigate(R.id.action_showProfileFragment_to_editProfileFragment)
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun editProfile(){
-
-        val bundle = Bundle()
-        bundle.putParcelable("group22.lab1.Image_Profile",imageView.drawable.toBitmap())
-        bundle.putString("group22.lab1.full_name", textView.text.toString())
-        bundle.putString("group22.lab1.nickname", textView2.text.toString())
-        bundle.putString("group22.lab1.email", textView3.text.toString())
-        bundle.putString("group22.lab1.location", textView4.text.toString())
-        findNavController().navigate(R.id.action_showProfileFragment_to_editProfileFragment,bundle)
-
     }
 
 

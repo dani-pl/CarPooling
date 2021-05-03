@@ -2,12 +2,14 @@ package it.polito.mad.carpooling
 
 import  android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Insets.add
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -31,32 +33,79 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.*
 import androidx.viewbinding.ViewBinding
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import java.lang.reflect.Array.get
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), DrawerLayout.DrawerListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var viewModel: ListViewModel
-    private lateinit var imageViewDrawer: ImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProvider(this).get(ListViewModel::class.java)
-        //imageViewDrawer = findViewById(R.id.imageView_drawer)
 
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-
-
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
 
+        val imageViewDrawer = navView.getHeaderView(0).findViewById<ImageView>(R.id.imageView_drawer)
+        val nameDrawer = navView.getHeaderView(0).findViewById<TextView>(R.id.name_drawer)
+
+            val db = FirebaseFirestore.getInstance()
+            db.collection("users")
+                .document("user1")
+                .addSnapshotListener { value, error ->
+                    if(error!=null) throw error
+                    if (value != null) {
+                        nameDrawer.text = value["nickname"].toString()
+                        val storage = FirebaseStorage.getInstance()
+                        val storageRef = storage.reference
+                        val imageRef = storageRef.child(value["image"] as String)
+                        val ONE_MEGABYTE: Long = 1024 * 1024
+                        var bitmapCar: Bitmap
+                        val carRef = storageRef.child("images/tony.jpg")
+                        carRef.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
+                            bitmapCar = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                            imageRef.getBytes(ONE_MEGABYTE)
+                                .addOnSuccessListener { bytes ->
+                                    imageViewDrawer.setImageBitmap(
+                                        BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                                    )
+                                }
+                                .addOnCanceledListener {
+                                    imageViewDrawer.setImageBitmap(bitmapCar)
+                                }
+                        }
+                    }
+                }
+
+
         val fab: FloatingActionButton = findViewById(R.id.fab)
+
+        // how many trips were stored
+        var count = 0
+        db.collection("trips")
+            .get()
+            .addOnSuccessListener { value ->
+                //if(error!=null) throw error
+                if (value != null) {
+                    for(document in value) {
+                        count=count.plus(1)
+                        viewModel.set_size(value.size())
+                    }
+                    viewModel.set_size(count)
+                }
+            }
+
+
 
         fab.setOnClickListener {
             navController.navigate(R.id.action_tripListFragment_to_tripEditFragment)
@@ -77,7 +126,7 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    /*
+
     override fun onDrawerStateChanged(newState: Int) {
     }
 
@@ -88,11 +137,38 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDrawerOpened(drawerView: View) {
-        if(viewModel._image_drawer.value?.height!! >=0) {
-            imageViewDrawer.setImageBitmap(viewModel.image_drawer.value)
-        }
+        val imageViewDrawer = drawerView.findViewById<ImageView>(R.id.imageView_drawer)
+        val nameDrawer = drawerView.findViewById<TextView>(R.id.name_drawer)
+
+        val db = FirebaseFirestore.getInstance()
+        db.collection("users")
+            .document("user1")
+            .get()
+            .addOnSuccessListener { value ->
+                if (value != null) {
+                    nameDrawer.text = value["fullName"].toString()
+                    val storage = FirebaseStorage.getInstance()
+                    val storageRef = storage.reference
+                    val imageRef = storageRef.child(value["image"] as String)
+                    val ONE_MEGABYTE: Long = 1024 * 1024
+                    var bitmapCar: Bitmap
+                    val carRef = storageRef.child("images/tony.jpg")
+                    carRef.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
+                        bitmapCar = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                        imageRef.getBytes(ONE_MEGABYTE)
+                            .addOnSuccessListener { bytes ->
+                                imageViewDrawer.setImageBitmap(
+                                    BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                                )
+                            }
+                            .addOnCanceledListener {
+                                imageViewDrawer.setImageBitmap(bitmapCar)
+                            }
+                    }
+                }
+            }
     }
-    */
+
 
 
 }

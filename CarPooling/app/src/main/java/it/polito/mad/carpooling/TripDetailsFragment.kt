@@ -1,5 +1,7 @@
 package it.polito.mad.carpooling
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.*
 import android.widget.EditText
@@ -10,6 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 
 
 class TripDetailsFragment : Fragment(R.layout.fragment_trip_details) {
@@ -35,9 +39,16 @@ class TripDetailsFragment : Fragment(R.layout.fragment_trip_details) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val position=arguments?.getInt("position")
-        viewModel.change_position(position)
-
+        val identifier=arguments?.getString("identifier")
+        if(identifier!=null) {
+            viewModel.change_identifier(identifier.toInt())
+        }
+        val new = arguments?.getBoolean("new")
+        if (new!=null) {
+            if (!new) {
+                viewModel.isNew(false)
+            }
+        }
 
         departureLocationView = view.findViewById<TextView>(R.id.departureLocation_text_details)
         arrivalLocationView = view.findViewById<TextView>(R.id.arrivalLocation_text_details)
@@ -49,15 +60,37 @@ class TripDetailsFragment : Fragment(R.layout.fragment_trip_details) {
         additionalInfoView = view.findViewById<TextView>(R.id.additionalInfo_text_details)
         imageViewCard = view.findViewById<ImageView>(R.id.imageView_details)
 
+        val db = FirebaseFirestore.getInstance()
+        db.collection("trips").document("trip${viewModel.identifier.value}")
+            .get()
+            .addOnSuccessListener { doc ->
+                if (doc != null) {
+                    departureLocationView.text = doc["departureLocation"] as String
+                    arrivalLocationView.text = doc["arrivalLocation"] as String
+                    departureDateView.text = doc["departureDate"] as String
+                    departureTimeView.text = doc["departureTime"] as String
+                    tripDurationView.text = doc["tripDuration"] as String
+                    numberOfSeatsView.text = doc["numberOfSeats"] as String
+                    priceView.text = doc["price"] as String
+                    additionalInfoView.text = doc["additionalInfo"] as String
 
-        departureLocationView.text = arguments?.getParcelable<Item>("ItemDetails")?.departureLocation.toString()
-        arrivalLocationView.text = arguments?.getParcelable<Item>("ItemDetails")?.arrivalLocation.toString()
-        departureDateView.text = arguments?.getParcelable<Item>("ItemDetails")?.departureDate.toString()
-        departureTimeView.text = arguments?.getParcelable<Item>("ItemDetails")?.departureTime.toString()
-        tripDurationView.text = arguments?.getParcelable<Item>("ItemDetails")?.tripDuration.toString()
-        priceView.text = arguments?.getParcelable<Item>("ItemDetails")?.price.toString()
-        additionalInfoView.text = arguments?.getParcelable<Item>("ItemDetails")?.additionalInfo.toString()
-        imageViewCard.setImageBitmap(arguments?.getParcelable<Item>("ItemDetails")?.image)
+                    val storage = FirebaseStorage.getInstance()
+                    val storageRef = storage.reference
+                    val imageRef = storageRef.child(doc["image"] as String)
+                    val ONE_MEGABYTE: Long = 1024 * 1024
+                    var bitmapCar: Bitmap
+                    val carRef = storageRef.child("images/car.jpeg")
+                    carRef.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
+                        bitmapCar = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                        imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
+                            imageViewCard.setImageBitmap(
+                                BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                            )
+                        }
+                    }
+
+                }
+            }
     }
 
 
@@ -69,6 +102,7 @@ class TripDetailsFragment : Fragment(R.layout.fragment_trip_details) {
         // Handle item selection
         when (item.itemId) {
             R.id.edit_profile -> {
+                /*
                 val item =   Item(
                         departureLocationView.text.toString(),
                         arrivalLocationView.text.toString(),
@@ -84,7 +118,9 @@ class TripDetailsFragment : Fragment(R.layout.fragment_trip_details) {
                 val bundle = Bundle()
                 bundle.putParcelable("ItemDetails",item)
                 bundle.putInt("position",viewModel.position.value!!)
-                findNavController().navigate(R.id.action_tripDetailsFragment_to_tripEditFragment,bundle)
+
+                 */
+                findNavController().navigate(R.id.action_tripDetailsFragment_to_tripEditFragment)
             }
         }
         return super.onOptionsItemSelected(item)
