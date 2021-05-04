@@ -17,11 +17,11 @@
 
     <string name="default_DepartureLocation">Milano</string>
     <string name="default_ArrivalLocation">Arrival location</string>
-    <string name="default_date">Departure date</string>
-    <string name="default_time">Departure time</string>
+    <string name="default_date">Date</string>
+    <string name="default_time">Time</string>
     <string name="default_estimated">Duration</string>
     <string name="default_availableSeats">Seats</string>
-    <string name="default_price">Price</string>
+    <string name="default_price">€</string>
     <string name="default_description">Additional information</string>
 
     <string name="image">image</string>
@@ -37,12 +37,12 @@
     <string name="edit">Edit</string>
     <string name="route">Route</string>
     <string name="no_data_available">Click + to add a new trip</string>
-    <string name="departureLocation">Departure location</string>
+    <string name="departureLocation">From...</string>
     <string name="hyphen"> - </string>
-    <string name="ArrivalLocation">Torino</string>
+    <string name="ArrivalLocation">To...</string>
     <string name="price">18</string>
     <string name="numberOfSeats">2</string>
-    <string name="pers">€/pers</string>
+    <string name="pers">/passenger</string>
     <string name="departureDate">24/11/2021</string>
     <string name="departureTime">12:30</string>
 </resources>

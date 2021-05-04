@@ -6,79 +6,142 @@ xmlns:tools="http://schemas.android.com/tools"
 android:orientation="horizontal"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:background="#ffffff"
-android:paddingRight="16dp"
-android:paddingLeft="16dp"
+android:background="@color/blue_dark"
+android:paddingHorizontal="16dp"
+android:paddingVertical="32dp"
 tools:context=".ShowProfileFragment" >
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_marginRight="8dp"
-    android:layout_weight="2">
-
-    <ImageView
-        android:id="@+id/imageView_show_profile"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:contentDescription="@string/profile_image"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/tony" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_weight="1"
-    android:layout_marginLeft="8dp"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/textView1_show_profile"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:hint="@string/default_name"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        android:gravity="center"
+        android:layout_weight="2">
 
-    <TextView
-        android:id="@+id/textView2_show_profile"
+        <ImageView
+            android:id="@+id/imageView_show_profile"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_gravity="top"
+            android:contentDescription="@string/profile_image"
+            app:srcCompat="@drawable/ic_account_circle_24_gray" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="16dp"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:hint="@string/default_nickname"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView3_show_profile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:hint="@string/default_email"
-        android:importantForAutofill="no"
-        android:inputType="textEmailAddress"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="@dimen/tv_sp_horizontal_padding"
+            android:padding="16dp"
+            android:background="@drawable/round_card">
 
-    <TextView
-        android:id="@+id/textView4_show_profile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:hint="@string/default_location"
-        android:importantForAutofill="no"
-        android:inputType="textPostalAddress"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-</LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:layout_gravity="bottom"
+                    android:text="Full name"/>
+
+                <TextView
+                    android:id="@+id/textView1_show_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="8dp"
+                    android:hint="@string/default_name"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:layout_gravity="bottom"
+                    android:text="Nickname"/>
+
+                <TextView
+                    android:id="@+id/textView2_show_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="8dp"
+                    android:hint="@string/default_nickname"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:layout_gravity="bottom"
+                    android:text="Email"/>
+
+                <TextView
+                    android:id="@+id/textView3_show_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="8dp"
+                    android:hint="@string/default_email"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:layout_gravity="bottom"
+                    android:text="Location"/>
+
+                <TextView
+                    android:id="@+id/textView4_show_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="8dp"
+                    android:hint="@string/default_location"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

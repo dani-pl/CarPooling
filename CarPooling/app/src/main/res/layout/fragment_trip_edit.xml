@@ -1,143 +1,344 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:orientation="vertical"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="#ffffff"
-android:paddingRight="16dp"
-android:paddingLeft="16dp"
-tools:context=".TripEditFragment">
-
-
- <androidx.constraintlayout.widget.ConstraintLayout
-     android:layout_height="match_parent"
-     android:layout_width="match_parent"
-     android:layout_weight="2"
-     android:layout_gravity="center">
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_height="128dp"
-        android:layout_width="128dp"
-        android:layout_gravity="center"
-        app:srcCompat="@drawable/car"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:contentDescription="@string/image"/>
-
-    <ImageButton
-        android:layout_height="30dp"
-        android:layout_width="30dp"
-        app:srcCompat="@drawable/camera_foreground"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        android:contentDescription="Change profile picture"
-        android:id="@+id/cameraButton"
-        tools:ignore="VectorDrawableCompat"
-        android:layout_marginTop="12dp"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-
-<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_weight="1"
-    android:orientation="vertical">
+    android:background="@color/blue_dark"
+    android:paddingRight="16dp"
+    android:paddingLeft="16dp"
+    tools:context=".TripEditFragment">
 
-    <EditText
-        android:id="@+id/departureLocation_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:hint="@string/departureLocation"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-    <EditText
-        android:id="@+id/arrivalLocation_text"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="@string/default_ArrivalLocation"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/departureLocation_text" />
+        android:layout_gravity="center"
+        android:layout_weight="2" >
 
-    <EditText
-        android:id="@+id/departureDate_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="@string/default_date"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:importantForAutofill="no"
-        android:clickable="false"
-        android:focusable="false"
-        android:inputType="textPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/arrivalLocation_text" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_height="128dp"
+            android:layout_width="128dp"
+            android:contentDescription="@string/image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_image_24" />
 
-    <EditText
-        android:id="@+id/departureTime_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="@string/default_time"
-        android:clickable="false"
-        android:focusable="false"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/departureDate_text" />
-    <EditText
-        android:id="@+id/tripDuration_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="@string/default_estimated"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/departureTime_text" />
-    <EditText
-        android:id="@+id/numberOfSeats_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="@string/default_availableSeats"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/tripDuration_text" />
-    <EditText
-        android:id="@+id/price_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="@string/default_price"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/numberOfSeats_text" />
-    <EditText
-        android:id="@+id/additionalInfo_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="Additional information"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/price_text" />
-</LinearLayout>
+        <ImageButton
+            android:id="@+id/cameraButton"
+            android:layout_height="30dp"
+            android:layout_width="30dp"
+            android:contentDescription="Change profile picture"
+            app:layout_constraintEnd_toEndOf="@id/imageView"
+            app:layout_constraintTop_toTopOf="@+id/imageView"
+            app:srcCompat="@drawable/camera_foreground"
+            tools:ignore="VectorDrawableCompat"/>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginBottom="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginHorizontal="@dimen/tv_sp_horizontal_padding"
+            android:background="@drawable/round_card">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Departure"
+                android:textStyle="bold"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Location"/>
+
+            <EditText
+                android:id="@+id/departureLocation_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="@string/departureLocation"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:background="@drawable/round_border"
+                android:paddingHorizontal="@dimen/et_ep_horizontal_padding"
+                android:paddingVertical="@dimen/et_ep_vertical_padding" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Date"/>
+
+            <EditText
+                android:id="@+id/departureDate_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="@string/default_date"
+                android:importantForAutofill="no"
+                android:clickable="false"
+                android:focusable="false"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:background="@drawable/round_border"
+                android:paddingHorizontal="@dimen/et_ep_horizontal_padding"
+                android:paddingVertical="@dimen/et_ep_vertical_padding" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Time"/>
+
+            <EditText
+                android:id="@+id/departureTime_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="@string/default_time"
+                android:importantForAutofill="no"
+                android:clickable="false"
+                android:focusable="false"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:background="@drawable/round_border"
+                android:paddingHorizontal="@dimen/et_ep_horizontal_padding"
+                android:paddingVertical="@dimen/et_ep_vertical_padding" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/blue_light"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Arrival"
+                android:textStyle="bold"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Location"/>
+
+            <EditText
+                android:id="@+id/arrivalLocation_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="@string/ArrivalLocation"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:background="@drawable/round_border"
+                android:paddingHorizontal="@dimen/et_ep_horizontal_padding"
+                android:paddingVertical="@dimen/et_ep_vertical_padding" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Time"/>
+
+            <EditText
+                android:id="@+id/arrivalTime_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="@string/default_time"
+                android:importantForAutofill="no"
+                android:clickable="false"
+                android:focusable="false"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:background="@drawable/round_border"
+                android:paddingHorizontal="@dimen/et_ep_horizontal_padding"
+                android:paddingVertical="@dimen/et_ep_vertical_padding" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/blue_light"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Details"
+                android:textStyle="bold"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Duration"/>
+
+            <EditText
+                android:id="@+id/tripDuration_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="@string/default_estimated"
+                android:importantForAutofill="no"
+                android:inputType="time"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:background="@drawable/round_border"
+                android:paddingHorizontal="@dimen/et_ep_horizontal_padding"
+                android:paddingVertical="@dimen/et_ep_vertical_padding" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Available seats"/>
+
+            <EditText
+                android:id="@+id/numberOfSeats_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="@string/default_availableSeats"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:background="@drawable/round_border"
+                android:paddingHorizontal="@dimen/et_ep_horizontal_padding"
+                android:paddingVertical="@dimen/et_ep_vertical_padding" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Price per passenger"/>
+
+            <EditText
+                android:id="@+id/price_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="@string/default_price"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:background="@drawable/round_border"
+                android:paddingHorizontal="@dimen/et_ep_horizontal_padding"
+                android:paddingVertical="@dimen/et_ep_vertical_padding" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Additional information"/>
+
+            <EditText
+                android:id="@+id/additionalInfo_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="Additional information"
+                android:importantForAutofill="no"
+                android:inputType="textLongMessage"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:background="@drawable/round_border"
+                android:paddingHorizontal="@dimen/et_ep_horizontal_padding"
+                android:paddingVertical="@dimen/et_ep_vertical_padding" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TripListFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/blue_dark">
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -29,7 +30,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:padding="16dp"
         android:text="@string/no_data_available"
+        android:textColor="@color/gray"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
 
