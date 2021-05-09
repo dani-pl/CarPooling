@@ -35,8 +35,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home">My trips</string>
     <string name="edit">Edit</string>
+    <string name="viewProfile">View Profile</string>
     <string name="route">Route</string>
+    <string name="other_home">Trips</string>
     <string name="no_data_available">Click + to add a new trip</string>
+    <string name="no_others_trips_available">No trips available</string>
     <string name="departureLocation">From...</string>
     <string name="hyphen"> - </string>
     <string name="ArrivalLocation">To...</string>

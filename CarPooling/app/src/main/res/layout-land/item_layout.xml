@@ -194,6 +194,18 @@
                 android:text="@string/edit"
                 app:backgroundTint="@color/blue_light"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <Button
+                android:id="@+id/view_profile_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/blue_light"
+                android:text="@string/viewProfile"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:backgroundTint="@color/blue_light" />
 
         </LinearLayout>
 
