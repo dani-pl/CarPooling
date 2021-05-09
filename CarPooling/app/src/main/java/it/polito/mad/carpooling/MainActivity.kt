@@ -47,7 +47,8 @@ class MainActivity : AppCompatActivity(), DrawerLayout.DrawerListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProvider(this).get(ListViewModel::class.java)
-
+        val name = intent.getStringExtra("name")
+        val email = intent.getStringExtra("email")
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -55,7 +56,6 @@ class MainActivity : AppCompatActivity(), DrawerLayout.DrawerListener {
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
-
         val imageViewDrawer = navView.getHeaderView(0).findViewById<ImageView>(R.id.imageView_drawer)
         val nameDrawer = navView.getHeaderView(0).findViewById<TextView>(R.id.name_drawer)
 
