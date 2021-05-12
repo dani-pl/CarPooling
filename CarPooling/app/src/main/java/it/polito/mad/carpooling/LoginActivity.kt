@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 
 
@@ -28,6 +29,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         this.textNotify = findViewById(R.id.NotifyError)
 
+        //Configure Button Google Sign
         val signInButton : SignInButton  = findViewById(R.id.sign_in_button)
         signInButton.setSize(SignInButton.SIZE_STANDARD);
 
@@ -92,9 +94,31 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     val user = auth.currentUser
+                    var isNewUser : Boolean? = task.getResult()?.additionalUserInfo?.isNewUser()
+
+                    //If is new user register so save in firestore database
+                    if(isNewUser == true) {
+                        val newUser = hashMapOf(
+                            "fullName" to user.displayName,
+                            "nickname" to "",
+                            "email" to user.email,
+                            "location" to "",
+                            "image" to "images/users/user1",
+                            "identifier" to user.uid
+
+                        )
+                        val db = FirebaseFirestore.getInstance()
+                        db.collection("users").add(newUser)
+                        .addOnSuccessListener { documentReference ->
+                            Log.d(TAG, "DocumentSnapshot written with ID: ${documentReference.id}")
+                        }
+                        .addOnFailureListener { e ->
+                            Log.w(TAG, "Error adding document", e)
+                        }
+                    }
                     val intent = Intent(this,MainActivity::class.java)
-                    intent.putExtra("name",user.displayName)
-                    intent.putExtra("mail", user.email )
+                    intent.putExtra("identifierUser",user.uid)
+
                     startActivity(intent)
 
 

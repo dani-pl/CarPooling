@@ -47,8 +47,9 @@ class MainActivity : AppCompatActivity(), DrawerLayout.DrawerListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProvider(this).get(ListViewModel::class.java)
-        val name = intent.getStringExtra("name")
-        val email = intent.getStringExtra("email")
+
+       //Info pass by Login Activity
+        val idUser = intent.getStringExtra("identifierUser")
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
