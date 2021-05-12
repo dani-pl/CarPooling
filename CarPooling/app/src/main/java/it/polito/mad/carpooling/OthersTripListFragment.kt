@@ -2,46 +2,48 @@ package it.polito.mad.carpooling
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Path
 import android.os.Bundle
-import android.os.Environment
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.SearchView
 import android.widget.TextView
-import androidx.core.graphics.drawable.toBitmap
-import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.auth.User
 import com.google.firebase.storage.FirebaseStorage
-import java.io.File
 
+class OthersTripListFragment : Fragment(R.layout.fragment_others_trip_list) {
 
-class TripListFragment : Fragment(R.layout.fragment_trip_list) {
-    lateinit var itemAdapter: ItemAdapter
-    private lateinit var listCards: MutableList<Item>
+    lateinit var itemAdapter2: ItemAdapter2
+    private lateinit var listCards: MutableList<Item2>
     private val viewModel: ListViewModel by activityViewModels()
+
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val rv = view.findViewById<RecyclerView>(R.id.rv)
-        rv.layoutManager = LinearLayoutManager(context)
+        val rv2 = view.findViewById<RecyclerView>(R.id.rv2)
+        rv2.layoutManager = LinearLayoutManager(context)
 
-        val noDataAvailable = view.findViewById<TextView>(R.id.no_data_available)
-        val fab= activity?.findViewById<FloatingActionButton>(R.id.fab)
-        fab?.show()
+
+        val noOthersTripsAvailable = view.findViewById<TextView>(R.id.no_others_trips_available)
+        // val searchViewTrip = view.findViewById<SearchView>(R.id.searchView)
 
 
         val db = FirebaseFirestore.getInstance()
@@ -53,7 +55,7 @@ class TripListFragment : Fragment(R.layout.fragment_trip_list) {
                     // get Image bitmap
                     val storage = FirebaseStorage.getInstance()
                     val storageRef = storage.reference
-                    val trips = mutableListOf<Item>()
+                    val trips2 = mutableListOf<Item2>()
                     for (doc in value){
                         var downloadedBitmap: Bitmap
                         var bitmapCar: Bitmap
@@ -64,8 +66,9 @@ class TripListFragment : Fragment(R.layout.fragment_trip_list) {
                             bitmapCar = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
                             imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
                                 downloadedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                                trips.add(
-                                    Item(
+
+                                trips2.add(
+                                    Item2(
                                         doc["identifier"] as String,
                                         doc["departureLocation"] as String,
                                         doc["arrivalLocation"] as String,
@@ -79,8 +82,8 @@ class TripListFragment : Fragment(R.layout.fragment_trip_list) {
                                     )
                                 )
                             }.addOnFailureListener {
-                                trips.add(
-                                    Item(
+                                trips2.add(
+                                    Item2(
                                         doc["identifier"] as String,
                                         doc["departureLocation"] as String,
                                         doc["arrivalLocation"] as String,
@@ -94,33 +97,76 @@ class TripListFragment : Fragment(R.layout.fragment_trip_list) {
                                     )
                                 )
                             }.addOnCompleteListener {
-                                itemAdapter = ItemAdapter(trips)
-                                rv.adapter = itemAdapter
+                                itemAdapter2 = ItemAdapter2(trips2)
+                                rv2.adapter = itemAdapter2
+                            }
+                        }
+                    }
+                }
+
+            }
+
+        /* ---------------  ------------------ ------------- --------------- ----
+
+
+        db.collection("users")
+            .orderBy("createdAt", Query.Direction.DESCENDING)
+            .addSnapshotListener { value, error ->
+                if(error!=null) throw error
+                if(value!=null){
+                    // get Image bitmap
+                    val storage = FirebaseStorage.getInstance()
+                    val storageRef = storage.reference
+                    val trips2 = mutableListOf<Item2>()
+                    for (doc in value){
+                        var downloadedBitmap2: Bitmap
+                        var bitmapCar2: Bitmap
+                        val imageRef2 = storageRef.child(doc["image"] as String)
+                        val carRef2 = storageRef.child("images/tony.jpg")
+                        val ONE_MEGABYTE: Long = 1024 * 1024
+                        carRef2.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
+                            bitmapCar2 = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                            imageRef2.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
+                                downloadedBitmap2 = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                                trips2.add(
+                                    Item2(
+                                        doc["fullName"] as String,
+                                        downloadedBitmap2
+                                    )
+                                )
+                            }.addOnFailureListener {
+                                trips2.add(
+                                    Item2(
+                                        doc["fullName"] as String,
+                                        bitmapCar2
+                                    )
+                                )
+                            }.addOnCompleteListener {
+                                itemAdapter2 = ItemAdapter2(trips2)
+                                rv2.adapter = itemAdapter2
                             }
                         }
                     }
                 }
             }
 
-
-
-
-        viewModel.size.observe(viewLifecycleOwner,Observer<Int?> { size->
+        //------------------     --------------- ---------------    ---------------
+        */
+        viewModel.size.observe(viewLifecycleOwner, Observer<Int?> { size->
             if(size!=null) {
-                noDataAvailable.isVisible = size <= 0
+                noOthersTripsAvailable.isVisible = size <= 0
             }
         })
+        
 
     }
 
-
 }
-
-data class Item(val identifier: String?, val departureLocation:String?, val arrivalLocation:String?,
+data class Item2(val identifier: String?, val departureLocation:String?, val arrivalLocation:String?,
                 val departureDate:String?, val departureTime:String?,
                 val tripDuration:String?, val numberOfSeats:String?,
                 val price:String?, val additionalInfo:String?,
-                val image:Bitmap?): Parcelable {
+                val image: Bitmap?): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
@@ -132,6 +178,8 @@ data class Item(val identifier: String?, val departureLocation:String?, val arri
         parcel.readString(),
         parcel.readString(),
         parcel.readParcelable(Bitmap::class.java.classLoader)
+        //parcel.readString(),
+        //parcel.readParcelable(Bitmap::class.java.classLoader)
     ) {
     }
 
@@ -146,25 +194,26 @@ data class Item(val identifier: String?, val departureLocation:String?, val arri
         parcel.writeString(price)
         parcel.writeString(additionalInfo)
         parcel.writeParcelable(image, flags)
+        //parcel.writeString(fullName)
+        //parcel.writeParcelable(image2, flags)
     }
 
     override fun describeContents(): Int {
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<Item> {
-        override fun createFromParcel(parcel: Parcel): Item {
-            return Item(parcel)
+    companion object CREATOR : Parcelable.Creator<Item2> {
+        override fun createFromParcel(parcel: Parcel): Item2 {
+            return Item2(parcel)
         }
 
-        override fun newArray(size: Int): Array<Item?> {
+        override fun newArray(size: Int): Array<Item2?> {
             return arrayOfNulls(size)
         }
     }
 }
+class ItemAdapter2(val items:MutableList<Item2>): RecyclerView.Adapter<ItemAdapter2.ItemViewHolder>() {
 
-
-class ItemAdapter(val items:MutableList<Item>): RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
     // the task of a view holder is to remember the smaller parts that my layout is made of.
     // and bind things whenever is requested
@@ -176,8 +225,11 @@ class ItemAdapter(val items:MutableList<Item>): RecyclerView.Adapter<ItemAdapter
         val numberOfSeatsText = v.findViewById<TextView>(R.id.numberOfSeats_text_card)
         val priceText = v.findViewById<TextView>(R.id.price_text_card)
         val imageCard = v.findViewById<ImageView>(R.id.image_card)
+        val fullNameText = v.findViewById<TextView>(R.id.fullName_text_card)
+        val imageProfile = v.findViewById<ImageView>(R.id.image_profile)
 
-        fun bind(item: Item) {
+
+        fun bind(item: Item2) {
             departureLocationText.text = item.departureLocation
             arrivalLocationText.text = item.arrivalLocation
             departureDateText.text = item.departureDate
@@ -185,6 +237,9 @@ class ItemAdapter(val items:MutableList<Item>): RecyclerView.Adapter<ItemAdapter
             numberOfSeatsText.text = item.numberOfSeats
             priceText.text = item.price
             imageCard.setImageBitmap(item.image)
+            //fullNameText.text = item.fullName
+            //imageProfile.setImageBitmap(item.image2)
+
         }
     }
 
@@ -201,39 +256,28 @@ class ItemAdapter(val items:MutableList<Item>): RecyclerView.Adapter<ItemAdapter
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.bind(items[position])
 
-        holder.itemView.setOnClickListener{
+        holder.itemView.setOnClickListener {
             val bundle = Bundle()
-            bundle.putString("identifier",items[position].identifier)
-            bundle.putBoolean("new",false)
-            Navigation.findNavController(holder.itemView).navigate(R.id.action_tripListFragment_to_tripDetailsFragment,bundle)
+            bundle.putString("identifier", items[position].identifier)
+            bundle.putBoolean("new", false)
+            Navigation.findNavController(holder.itemView)
+                .navigate(R.id.action_othersTripListFragment_to_tripDetailsFragment2, bundle)
         }
-        val editButton = holder.itemView.findViewById<MaterialButton?>(R.id.edit_card_button)
         val viewButton = holder.itemView.findViewById<MaterialButton?>(R.id.view_profile_button)
-        val fullNameText = holder.itemView.findViewById<TextView>(R.id.fullName_text_card)
-        val imageProfile = holder.itemView.findViewById<ImageView>(R.id.image_profile)
-        viewButton?.isVisible= false
-        fullNameText?.isVisible= false
-        imageProfile?.isVisible= false
-
-        editButton?.setOnClickListener {
+        val editButton = holder.itemView.findViewById<MaterialButton?>(R.id.edit_card_button)
+        editButton?.isVisible= false
+        viewButton?.setOnClickListener {
             val bundle = Bundle()
             bundle.putString("identifier",items[position].identifier)
             bundle.putBoolean("new",false)
-            Navigation.findNavController(holder.itemView).navigate(R.id.action_tripListFragment_to_tripEditFragment,bundle)
+            Navigation.findNavController(holder.itemView).navigate(R.id.action_othersTripListFragment_to_showProfileFragment,bundle)
         }
-    }
-    fun add(item:Item){
-        items.add(item)
-        this.notifyItemInserted(items.size - 1)
-    }
-    fun edit(position: Int, item:Item){
-        items[position]=item
     }
 }
 
-class ListViewModel() : ViewModel() {
-    private val _items = MutableLiveData(mutableListOf<Item>())
-    val items: LiveData<MutableList<Item>> = _items
+class ListViewModel2() : ViewModel() {
+    private val _items = MutableLiveData(mutableListOf<Item2>())
+    val items: LiveData<MutableList<Item2>> = _items
     private val _new = MutableLiveData(false)
     val new: LiveData<Boolean> = _new
     val _identifier = MutableLiveData(0)
@@ -242,13 +286,8 @@ class ListViewModel() : ViewModel() {
     val size: LiveData<Int?> = _size
     val _listIdentifiers = MutableLiveData(mutableListOf<Int>())
     val listIdentifiers = _listIdentifiers
-/*
-    val _image_drawer= MutableLiveData<Bitmap?>()
-    val image_drawer: LiveData<Bitmap?> = _image_drawer
 
- */
-
-    fun addItem(item: Item) {
+    fun addItem(item: Item2) {
         _items.value = items.value.also { it?.add(item) }
     }
 
@@ -257,7 +296,7 @@ class ListViewModel() : ViewModel() {
         _new.value = boolean
     }
 
-    fun editItem(position: Int, item: Item){
+    fun editItem(position: Int, item: Item2){
         _items.value = items.value.also{items-> items?.set(position, item) }
     }
 
@@ -283,6 +322,10 @@ class ListViewModel() : ViewModel() {
         _listIdentifiers.value?.add(identifier)
     }
 }
+
+
+
+
 
 
 
