@@ -64,7 +64,8 @@ class TripListFragment : Fragment(R.layout.fragment_trip_list) {
                         val ONE_MEGABYTE: Long = 1024 * 1024
                         carRef.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
                             bitmapCar = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                            imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
+                            imageRef.getBytes(ONE_MEGABYTE)
+                                    .addOnSuccessListener { bytes ->
                                 downloadedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
                                 trips.add(
                                     Item(
@@ -210,7 +211,6 @@ class ItemAdapter(val items:MutableList<Item>): RecyclerView.Adapter<ItemAdapter
 
         holder.itemView.setOnClickListener{
             val bundle = Bundle()
-            val a = position
             bundle.putString("identifier",items[position].identifier)
             bundle.putBoolean("new",false)
             Navigation.findNavController(holder.itemView).navigate(R.id.action_tripListFragment_to_tripDetailsFragment,bundle)
@@ -236,12 +236,16 @@ class ItemAdapter(val items:MutableList<Item>): RecyclerView.Adapter<ItemAdapter
 class ListViewModel() : ViewModel() {
     private val _items = MutableLiveData(mutableListOf<Item>())
     val items: LiveData<MutableList<Item>> = _items
+
     private val _new = MutableLiveData(false)
     val new: LiveData<Boolean> = _new
+
     val _identifier = MutableLiveData(0)
     val identifier: LiveData<Int?> = _identifier
+
     val _size = MutableLiveData(0)
     val size: LiveData<Int?> = _size
+
     val _listIdentifiers = MutableLiveData(mutableListOf<Int>())
     val listIdentifiers = _listIdentifiers
 /*
