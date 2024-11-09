@@ -12,6 +12,10 @@
             android:id="@+id/showProfileFragment"
             android:icon="@drawable/ic_baseline_person_24_black"
             android:title="@string/menu_profile" />
+        <item
+            android:id="@+id/othersTripListFragment"
+            android:icon="@drawable/ic_baseline_cable_24_black"
+            android:title="@string/other_home" />
 
     </group>
 </menu>

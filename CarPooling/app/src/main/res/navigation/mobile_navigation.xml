@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/tripListFragment">
+    app:startDestination="@+id/othersTripListFragment">
 
     <fragment
         android:id="@+id/tripDetailsFragment"
@@ -52,6 +52,17 @@
         tools:layout="@layout/fragment_edit_profile">
         <action
             android:id="@+id/action_editProfileFragment_to_showProfileFragment"
+            app:destination="@id/showProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/othersTripListFragment"
+        android:name="it.polito.mad.carpooling.OthersTripListFragment"
+        android:label="@string/other_home" >
+        <action
+            android:id="@+id/action_othersTripListFragment_to_tripDetailsFragment2"
+            app:destination="@id/tripDetailsFragment" />
+        <action
+            android:id="@+id/action_othersTripListFragment_to_showProfileFragment"
             app:destination="@id/showProfileFragment" />
     </fragment>
 </navigation>

@@ -9,6 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -48,6 +49,8 @@ class MainActivity : AppCompatActivity(), DrawerLayout.DrawerListener {
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProvider(this).get(ListViewModel::class.java)
 
+       //Info pass by Login Activity
+        val idUser = intent.getStringExtra("identifierUser")
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -55,37 +58,37 @@ class MainActivity : AppCompatActivity(), DrawerLayout.DrawerListener {
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
-
-        val imageViewDrawer = navView.getHeaderView(0).findViewById<ImageView>(R.id.imageView_drawer)
+        val imageViewDrawer =
+            navView.getHeaderView(0).findViewById<ImageView>(R.id.imageView_drawer)
         val nameDrawer = navView.getHeaderView(0).findViewById<TextView>(R.id.name_drawer)
 
-            val db = FirebaseFirestore.getInstance()
-            db.collection("users")
-                .document("user1")
-                .addSnapshotListener { value, error ->
-                    if(error!=null) throw error
-                    if (value != null) {
-                        nameDrawer.text = value["nickname"].toString()
-                        val storage = FirebaseStorage.getInstance()
-                        val storageRef = storage.reference
-                        val imageRef = storageRef.child(value["image"] as String)
-                        val ONE_MEGABYTE: Long = 1024 * 1024
-                        var bitmapCar: Bitmap
-                        val carRef = storageRef.child("images/tony.jpg")
-                        carRef.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
-                            bitmapCar = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                            imageRef.getBytes(ONE_MEGABYTE)
-                                .addOnSuccessListener { bytes ->
-                                    imageViewDrawer.setImageBitmap(
-                                        BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                                    )
-                                }
-                                .addOnCanceledListener {
-                                    imageViewDrawer.setImageBitmap(bitmapCar)
-                                }
-                        }
+        val db = FirebaseFirestore.getInstance()
+        db.collection("users")
+            .document("user1")
+            .addSnapshotListener { value, error ->
+                if (error != null) throw error
+                if (value != null) {
+                    nameDrawer.text = value["nickname"].toString()
+                    val storage = FirebaseStorage.getInstance()
+                    val storageRef = storage.reference
+                    val imageRef = storageRef.child(value["image"] as String)
+                    val ONE_MEGABYTE: Long = 1024 * 1024
+                    var bitmapCar: Bitmap
+                    val carRef = storageRef.child("images/tony.jpg")
+                    carRef.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
+                        bitmapCar = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                        imageRef.getBytes(ONE_MEGABYTE)
+                            .addOnSuccessListener { bytes ->
+                                imageViewDrawer.setImageBitmap(
+                                    BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                                )
+                            }
+                            .addOnCanceledListener {
+                                imageViewDrawer.setImageBitmap(bitmapCar)
+                            }
                     }
                 }
+            }
 
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
@@ -97,8 +100,8 @@ class MainActivity : AppCompatActivity(), DrawerLayout.DrawerListener {
             .addOnSuccessListener { value ->
                 //if(error!=null) throw error
                 if (value != null) {
-                    for(document in value) {
-                        count=count.plus(1)
+                    for (document in value) {
+                        count = count.plus(1)
                         viewModel.set_size(value.size())
                     }
                     viewModel.set_size(count)
@@ -115,7 +118,13 @@ class MainActivity : AppCompatActivity(), DrawerLayout.DrawerListener {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
 
-        appBarConfiguration = AppBarConfiguration(setOf(R.id.tripListFragment, R.id.showProfileFragment), drawerLayout)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.tripListFragment,
+                R.id.showProfileFragment,
+                R.id.othersTripListFragment
+            ), drawerLayout
+        )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
@@ -168,6 +177,13 @@ class MainActivity : AppCompatActivity(), DrawerLayout.DrawerListener {
                 }
             }
     }
+
+
+    // nueva parte }
+
+
+
+
 
 
 

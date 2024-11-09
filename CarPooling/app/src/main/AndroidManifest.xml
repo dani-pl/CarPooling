@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="it.polito.mad.carpooling">
 
     <uses-feature
@@ -14,7 +15,7 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -24,16 +25,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CarPooling">
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main"
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"
             android:theme="@style/Theme.CarPooling.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/Theme.CarPooling.NoActionBar">
 
         </activity>
 
@@ -47,8 +52,10 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".EditProfileActivity"></activity>
-        <activity android:name=".ShowProfileActivity"></activity>
+        <activity android:name=".EditProfileFragment"
+            tools:ignore="Instantiatable" />
+        <activity android:name=".ShowProfileFragment"
+            tools:ignore="Instantiatable" />
     </application>
 
 </manifest>

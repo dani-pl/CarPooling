@@ -14,6 +14,38 @@
       },
       "oauth_client": [
         {
+          "client_id": "823025805063-6aecqpfjutqkj3v1jq1os53ga1172l2g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "it.polito.mad.carpooling",
+            "certificate_hash": "b61cca2e70e5320b7b50beaf887ee6a5d1bf6c36"
+          }
+        },
+        {
+          "client_id": "823025805063-cihvakfl3869em9q2rol0t8fa2frdsnu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "it.polito.mad.carpooling",
+            "certificate_hash": "b3305983c8b89c958270da7c9172aca56915851b"
+          }
+        },
+        {
+          "client_id": "823025805063-gq809kj31qqbshi1n2rer9houf8lob9i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "it.polito.mad.carpooling",
+            "certificate_hash": "10fa878ebbc9c3df0c40add2cc624921fb22de3d"
+          }
+        },
+        {
+          "client_id": "823025805063-v510864pctllni5bt3d8gq0cus5jsgm3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "it.polito.mad.carpooling",
+            "certificate_hash": "0fed7c4406536e5e0f5f21de2e6f6d0244952cee"
+          }
+        },
+        {
           "client_id": "823025805063-h2t392navdse68d8ndd36a709rc3td5k.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -27,7 +59,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "823025805063-h2t392navdse68d8ndd36a709rc3td5k.apps.googleusercontent.com",
+              "client_id": "823025805063-evlbfvme2f8456741j4bbelhi8rp7tsn.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

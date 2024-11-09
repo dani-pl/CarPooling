@@ -32,8 +32,8 @@
         android:gravity="center"
         android:padding="16dp"
         android:text="@string/no_data_available"
-        android:textColor="@color/gray"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/gray" />
 
 
 </LinearLayout>

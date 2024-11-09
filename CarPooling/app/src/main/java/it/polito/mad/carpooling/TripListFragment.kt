@@ -39,8 +39,6 @@ class TripListFragment : Fragment(R.layout.fragment_trip_list) {
         val rv = view.findViewById<RecyclerView>(R.id.rv)
         rv.layoutManager = LinearLayoutManager(context)
 
-
-        //listCards= mutableListOf<Item>()
         val noDataAvailable = view.findViewById<TextView>(R.id.no_data_available)
         val fab= activity?.findViewById<FloatingActionButton>(R.id.fab)
         fab?.show()
@@ -113,11 +111,6 @@ class TripListFragment : Fragment(R.layout.fragment_trip_list) {
                 noDataAvailable.isVisible = size <= 0
             }
         })
-
-
-        //itemAdapter = ItemAdapter(trips)
-        //rv.adapter = itemAdapter
-
 
     }
 
@@ -216,6 +209,12 @@ class ItemAdapter(val items:MutableList<Item>): RecyclerView.Adapter<ItemAdapter
             Navigation.findNavController(holder.itemView).navigate(R.id.action_tripListFragment_to_tripDetailsFragment,bundle)
         }
         val editButton = holder.itemView.findViewById<MaterialButton?>(R.id.edit_card_button)
+        val viewButton = holder.itemView.findViewById<MaterialButton?>(R.id.view_profile_button)
+        val fullNameText = holder.itemView.findViewById<TextView>(R.id.fullName_text_card)
+        val imageProfile = holder.itemView.findViewById<ImageView>(R.id.image_profile)
+        viewButton?.isVisible= false
+        fullNameText?.isVisible= false
+        imageProfile?.isVisible= false
 
         editButton?.setOnClickListener {
             val bundle = Bundle()
@@ -282,18 +281,15 @@ class ListViewModel() : ViewModel() {
     }
 
     fun isUnique(identifier: Int): Boolean? {
-       return  _listIdentifiers.value?.contains(identifier)
+        return  _listIdentifiers.value?.contains(identifier)
     }
 
     fun addIdentifier(identifier: Int) {
-         _listIdentifiers.value?.add(identifier)
+        _listIdentifiers.value?.add(identifier)
     }
-    /*
-    fun change_image_drawer(image: Bitmap?){
-            _image_drawer.value = image
-    }
-
-     */
-
-    //fun removeItem(item: Item) { item.add() }
 }
+
+
+
+
+

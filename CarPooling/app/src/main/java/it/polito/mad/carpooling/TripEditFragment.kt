@@ -150,19 +150,6 @@ class TripEditFragment : Fragment(R.layout.fragment_trip_edit) {
                     }
         }
 
-        /*
-        if(arguments!=null) {
-            departureLocationView.setText(arguments?.getParcelable<Item>("ItemDetails")?.departureLocation.toString())
-            departureDateView.setText(arguments?.getParcelable<Item>("ItemDetails")?.departureDate.toString())
-            departureTimeView.setText(arguments?.getParcelable<Item>("ItemDetails")?.departureTime.toString())
-            tripDurationView.setText(arguments?.getParcelable<Item>("ItemDetails")?.tripDuration.toString())
-            priceView.setText(arguments?.getParcelable<Item>("ItemDetails")?.price.toString())
-            additionalInfoView.setText(arguments?.getParcelable<Item>("ItemDetails")?.additionalInfo.toString())
-            imageViewCard.setImageBitmap(arguments?.getParcelable<Item>("ItemDetails")?.image)
-        }
-        */
-
-
         val cameraButton = view.findViewById<ImageButton>(R.id.cameraButton)
         // Long press on the ImageButton is needed, not a short click
         registerForContextMenu(cameraButton)
@@ -212,41 +199,6 @@ class TripEditFragment : Fragment(R.layout.fragment_trip_edit) {
                             findNavController().navigate(R.id.action_tripEditFragment_to_tripListFragment)
                         }
             }
-
-
-                //if(viewModel.new.value!!){
-
-                    /*
-                    viewModel.isNew(false)
-                    viewModel.addItem(
-                            Item(
-                                    departureLocationView.text.toString(),
-                                    arrivalLocationView.text.toString(),
-                                    departureDateView.text.toString(),
-                                    departureTimeView.text.toString(),
-                                    tripDurationView.text.toString(),
-                                    numberOfSeatsView.text.toString(),
-                                    priceView.text.toString(),
-                                    additionalInfoView.text.toString(),
-                                    imageViewCard.drawable.toBitmap()))
-
-                     */
-                //}else {
-                    /*
-                    viewModel.editItem(viewModel.position.value!!,
-                            Item(
-                            departureLocationView.text.toString(),
-                            arrivalLocationView.text.toString(),
-                            departureDateView.text.toString(),
-                            departureTimeView.text.toString(),
-                            tripDurationView.text.toString(),
-                            numberOfSeatsView.text.toString(),
-                            priceView.text.toString(),
-                            additionalInfoView.text.toString(),
-                            imageViewCard.drawable.toBitmap())
-                    )
-                     */
-                //}
 
         }
         return super.onOptionsItemSelected(item)

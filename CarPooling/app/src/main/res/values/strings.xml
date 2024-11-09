@@ -13,8 +13,6 @@
     <string name="nav_header_subtitle">Name or Nickname </string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-
-
     <string name="default_DepartureLocation">Milano</string>
     <string name="default_ArrivalLocation">Arrival location</string>
     <string name="default_date">Date</string>
@@ -23,9 +21,7 @@
     <string name="default_availableSeats">Seats</string>
     <string name="default_price">€</string>
     <string name="default_description">Additional information</string>
-
     <string name="image">image</string>
-
     <string name="menu_profile">My profile</string>
     <string name="edit_profile">Edit profile</string>
     <string name="menu_trip">Trip</string>
@@ -35,8 +31,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home">My trips</string>
     <string name="edit">Edit</string>
+    <string name="viewProfile">View Profile</string>
     <string name="route">Route</string>
+    <string name="other_home">Trips</string>
     <string name="no_data_available">Click + to add a new trip</string>
+    <string name="no_others_trips_available">No trips available</string>
     <string name="departureLocation">From...</string>
     <string name="hyphen"> - </string>
     <string name="ArrivalLocation">To...</string>
@@ -45,4 +44,13 @@
     <string name="pers">/passenger</string>
     <string name="departureDate">24/11/2021</string>
     <string name="departureTime">12:30</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>
